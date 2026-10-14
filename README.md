@@ -2,6 +2,8 @@
 
 Secure THORChain operator communications over Tor. **Design draft: the CLI, relay and group messaging are not implemented.**
 
+In the proposed first version, you submit a report through Tor and maintainers receive an encrypted email attachment. Your computer signs and encrypts the contents; the relay checks your authorization and forwards the package without being able to read it. See [how a report is delivered](docs/design.md#how-a-report-is-delivered) for the full journey, including Tor recovery and acknowledgements.
+
 - [Protocol design](docs/design.md): node-authorized delegation, local age encryption, Tor-only admission and independently verified delivery.
 - [Original security review](docs/security-review.md): nineteen findings and required verification.
 - [External review and dispositions](adversarial.md): thirty findings, draft corrections and residual gates.

@@ -4,6 +4,22 @@ Status: design, not implemented. Updated 2026-10-14. User requested integration 
 
 This is the controlling design for the proposed relay. It groups the nineteen original findings (R00–R18) from the [findings register](security-review.md) into ten controls. The external review and per-finding dispositions are retained in [adversarial.md](../adversarial.md). These are design requirements, not controls proven by implementation. CLI names and API paths below are proposed contracts, not implemented commands. Repository: [PFC-Validator/bodferd](https://github.com/PFC-Validator/bodferd). Bodferd is the ASCII project name; Bodferð is the display name. Existing THOR-RELAY wire markers below remain proposed v1 identifiers, independent of branding.
 
+## How a report is delivered
+
+Bodferð is a proposed way for THORChain node operators to send private reports and files to maintainers. **You submit through Tor; maintainers receive an encrypted email attachment.**
+
+In the proposed first version:
+
+1. **You register your identity.** The node operator authorizes your own communication key. Several team members can be authorized for the same node.
+2. **You prepare a report on your computer.** The Bodferd command-line tool signs your message and optional file, then encrypts them for the approved maintainers.
+3. **You send it through Tor to a relay.** The relay checks your authorization and forwards the encrypted package to the designated maintainer mailbox. It cannot read the contents.
+4. **A maintainer decrypts and verifies it locally.** Their tool checks who sent it and whether anything changed before presenting the report. If email fails, they can retrieve the package directly through Tor while it remains retained.
+5. **You check for acknowledgement through Tor.** A signed maintainer acknowledgement confirms receipt; an email delivery status alone does not. The design also allows an encrypted reply through the same private status channel.
+
+Discord carries public registration announcements. The blockchain helps verify node authority and the current approved recipient policy. Neither carries your confidential report.
+
+The first version is a reporting channel. Private conversations and group chat are a later direction. The CLI and relay are not implemented.
+
 ## Outcome and privacy promise
 
 An authorized member of a node operator’s team can submit an authenticated confidential message and file to the THORChain maintainer over Tor without disclosing plaintext to the admission service or email provider. Public node-authenticated announcements can bootstrap a separate communication signing key and an age recipient key. Maintainer keys are authenticated through an independently trusted maintainer policy; current approved policy is published by a finalized on-chain commitment, subject to the publication adapter acceptance gate below.

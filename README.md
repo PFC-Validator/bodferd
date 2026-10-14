@@ -1,6 +1,6 @@
 # Bodferð reading edition
 
-Static GitHub Pages output of [PFC-Validator/bodferd](https://github.com/PFC-Validator/bodferd), source commit `7c1768885a0f504417c157f87bbb323780c93d6c` on [design/operator-teams](https://github.com/PFC-Validator/bodferd/tree/design/operator-teams). This adds multi-person node operations to the draft; source review/merge is separate from publishing the reading edition.
+Static GitHub Pages output of [PFC-Validator/bodferd](https://github.com/PFC-Validator/bodferd), source commit `35ba46bf1222374a9d59244e272a0803eb8fe166` on [design/operator-teams](https://github.com/PFC-Validator/bodferd/tree/design/operator-teams). This adds multi-person node operations to the draft; source review/merge is separate from publishing the reading edition.
 
 Publish this branch (`gh-pages`) from its root directory. `.nojekyll` preserves generated HTML, assets and downloadable Markdown without Jekyll processing. Public reading URL: https://pfc-validator.github.io/bodferd/.
 

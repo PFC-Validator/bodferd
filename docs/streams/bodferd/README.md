@@ -14,6 +14,7 @@ Independent review of the draft Bodferd protocol. Implementation is not authoriz
 | # | Brief | Wave | Effort | Status | Verified | Reviewed |
 |---|-------|------|--------|--------|----------|----------|
 | 01 | [Review and approve the reporting design](./brief-01-review-and-approve-the-reporting-design.md) | 0 | M | todo | — | — |
+| 02 | [Resolve adversarial review findings in the reporting design](./brief-02-resolve-adversarial-review-findings-in-the-reporting-design.md) | 0 | M | todo | — | — |
 
 ## Critical path
 Brief 01 is standalone.

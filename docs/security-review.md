@@ -60,6 +60,8 @@ No actual recipient public key, maintainer key confirmation, current node-launch
 
 **Remediation:** define node-key and operator-key verification paths separately. Pin the supported network/chain ID and signature format. Derive the signer's account address from its verified public key; authorize the exact node Cosmos account or on-chain `node_operator_address`, not a claimed address or any bond provider. Check that relationship against fresh, trusted chain state. Prefer an independently operated full node; multiple REST providers are a trust heuristic, not cryptographic state verification. Do not trust the submitting node's own membership claim. Record the validation height and define staleness/unavailability behavior. Allow one operator to correspond to multiple nodes without multiplying quotas accidentally.
 
+Z>>> A07: design.md records a validation height only in registrar attestations and defines no staleness bound for admission-time checks; "fresh state" in its Row 6 is unbacked. See adversarial.md A07. <<<Z
+
 ### R04 — High: routine CLI use can endanger powerful keys
 
 **Component attacked:** CLI calls the node or operator signer on every report.
@@ -110,6 +112,8 @@ No actual recipient public key, maintainer key confirmation, current node-launch
 
 **Remediation:** specify accepted statuses and a bounded recently-authorized recovery category. Distinguish trust levels in the encrypted evidence. If emergency unauthenticated reporting is needed, give it a separate limited lane with an explicit unverified label. Never silently fall back to accepting unverifiable node identity when chain verification fails.
 
+Z>>> A01 (Critical): design.md provides no emergency lane; it keeps "never fall back to anonymous acceptance" and a recovery attestation for Disabled nodes only. Since the preferred enrollment path has no implementation route, a non-enrolled operator cannot report during an incident. See adversarial.md A01. <<<Z
+
 ### R09 — High: Tor transport does not conceal signed node identity
 
 **Component attacked:** privacy of the operator.
@@ -130,6 +134,8 @@ No actual recipient public key, maintainer key confirmation, current node-launch
 
 **Remediation:** encrypt the whole report, including message and original filenames. Use a generic fixed subject, relay From address, randomized generic attachment name, fixed configured destination, and no operator Reply-To. Wrap the complete submission manifest, signatures, delegation and ciphertext in an additional age envelope for email, so providers do not see node identity. The relay needs only the pinned public recipient key for this outer envelope. Providers still see size, timing, relay and recipient. Padding inside encryption and optional batching reduce easy correlation at a cost in bandwidth and urgency. Prefer an onion mailbox plus generic email notification when metadata minimization matters more than attached-email convenience.
 
+Z>>> A08 (High): design.md keeps attached email as the primary transport and does not record why this recommendation (onion mailbox plus content-free notification) was not taken, even though the maintainer response path is already onion-only. See adversarial.md A08. <<<Z
+
 ### R11 — High: static recipient keys do not provide forward secrecy
 
 **Component attacked:** long-term confidentiality of stored reports.
@@ -149,6 +155,8 @@ No actual recipient public key, maintainer key confirmation, current node-launch
 **Evidence:** test and production routing are named but their key/environment separation is unspecified.
 
 **Remediation:** use distinct signed policies, age keys, service identities, configuration, credentials and queues. Bind environment and recipient policy in signatures. Fix the destination server-side; reject client overrides, CC/BCC, arbitrary subject/headers, callbacks, or URLs to fetch. Test only with synthetic data. Production should refuse to start with test configuration and vice versa. Independently confirm each intended recipient possesses the corresponding identity.
+
+Z>>> A17 (Medium): design.md does not carry "production should refuse to start with test configuration and vice versa", and does not require disjoint policy-authority key sets per environment. See adversarial.md A17. <<<Z
 
 ### R13 — High: authorized senders and unauthenticated uploads can exhaust the service
 
@@ -237,3 +245,5 @@ No actual recipient public key, maintainer key confirmation, current node-launch
 First settle encryption-validation semantics, recipient trust, signer eligibility and the privacy promise. Then specify exact manifest/delegation/receipt formats and recipient handling; only then implement CLI, isolated service and synthetic test deployment. This review creates documentation only. No application/cluster changes, commits, pushes, tags, PRs or test emails were performed. Repository instructions reserve PR creation/merging to the user and prohibit GitHub CLI/MCP, so the durable local report is the review handoff.
 
 Follow-up, 2026-10-14: the user requested integration of the findings with public `make relay` key registration and selected protocol design before implementation. The controlling [node relay protocol](design.md) maps all ten summarized controls to mechanisms and acceptance evidence, separates age encryption from communication signing, and distinguishes original node signatures from registrar-witnessed Discord enrollment. These are designed controls, not implemented remediations; this review's findings remain open until implementation and verification evidence exist.
+
+Z>>> A22 (Medium): this register has nineteen findings (R00–R18) and no ten-item summary; design.md:5 and the website cite "all ten controls summarized in the review". Follow-up adversarial review 2026-10-14: adversarial.md (repository root) records thirty further findings, two Critical, against design.md, the Signal section and the reading website. See adversarial.md. <<<Z

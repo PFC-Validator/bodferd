@@ -4,13 +4,19 @@ Status: design, not implemented. Updated 2026-10-14. User requested integration 
 
 This is the controlling design for the proposed relay. It incorporates all ten controls summarized in the review and the detailed [findings register](security-review.md). CLI names and API paths below are proposed contracts, not implemented commands. Repository: [PFC-Validator/bodferd](https://github.com/PFC-Validator/bodferd). Bodferd is the ASCII project name; Bodferð is the display name. Existing THOR-RELAY wire markers below remain proposed v1 identifiers, independent of branding.
 
+Z>>> A22 (Medium): "all ten controls summarized in the review" has no referent. security-review.md contains nineteen findings (R00–R18) and no ten-item summary; the ten are this document's own grouping table and no R-number maps to a row. See adversarial.md A22. <<<Z
+
 ## Outcome and privacy promise
 
 A recognized node operator can submit an authenticated confidential message and file to the THORChain maintainer over Tor without disclosing plaintext to the admission service or email provider. Public node-authenticated announcements can bootstrap a separate communication signing key and an age recipient key. Maintainer keys are authenticated through an independently trusted maintainer policy.
 
 The admission relay learns the submitting node identity, time and ciphertext size. The maintainer learns the sender and report contents. Public registration announces participation and may link communication keys to a node. Email providers learn the relay, recipient, time and approximate size. The system does not promise anonymity from the admission relay, deniability of signed reports, forward secrecy with static age keys, or protection after compromise of a plaintext endpoint. These boundaries must appear in CLI documentation.
 
+Z>>> A18 (Medium): this lists what a compromised relay learns, not what it can do. Missing: selective per-node refusal of challenges or renewals (silent expulsion), fabricated delivery-uncertain/failed status, delayed dispatch past an incident window, withheld replies, dropped evidence bundles, serving a still-valid 24-hour-old policy after a revocation, and cross-epoch node/key/recipient graphing. See adversarial.md A18, A24. <<<Z
+
 Production destination: `itzamna@thorchain.org`. Test destination: `pfc@pfc.zone`. These are user-provided routes; neither an email string nor this document establishes ownership of an age identity. No public keys, trusted maintainer roster, new onion address or mail-provider configuration have yet been provisioned.
+
+Z>>> A02 (Critical): the maintainer identity is a user-supplied string and no maintainer-side party participates in this design: nothing requires the maintainer to publish a fingerprint through a channel operators already trust or to countersign the policy entry naming their key. A04 (High): the schema at line 56 has exactly one maintainer and no roster or continuity recipient; after SMTP acceptance the relay has deleted its copy, so a lost maintainer key or an absent maintainer leaves every report unreadable. See adversarial.md A02, A04. <<<Z
 
 ## What the existing Discord relay supports
 
@@ -46,7 +52,11 @@ The proposed v1 communication signature scheme is Ed25519. Use a standard implem
 
 The CLI obtains an initial trust bundle independently of the relay: authenticated distribution plus an out-of-band confirmed policy-authority fingerprint. First contact never silently trusts keys returned by the upload service. Test and production trust/configuration are separate.
 
+Z>>> A02 (Critical): "authenticated distribution" ships the trust bundle inside a signed CLI release, so the release-signing identity (unnamed; line 251 leaves it as future work) is the de facto root above the policy authority. The "out-of-band" fingerprint channel is never named; the only public channel this document mentions is Discord, which line 64 says cannot confer authority. See adversarial.md A02. <<<Z
+
 The trust bundle defines policy-authority keys and a signature threshold. Proposal: two independent approvals for production maintainer/registrar authority changes; a separate explicitly trusted single-authority test configuration is allowed. Identities and initial fingerprints remain provisioning prerequisites, not invented identities in this design.
+
+Z>>> A02 (Critical) / A17 (Medium): nothing requires the threshold signers, the relay administrators and the registrars to be different organisations, and nothing requires production and test authority key sets to be disjoint. If one organisation holds both keys and runs the relay, the threshold protects against losing a key file, not against that organisation substituting report_age_recipient, which is the R02 circularity this layer exists to break. See adversarial.md A02, A17. <<<Z
 
 A threshold-signed policy binds:
 
@@ -64,6 +74,8 @@ The exact maintainer mailbox is fixed in deployment configuration and compared t
 The maintainer confirms key possession by signing a policy challenge with the acknowledgement key and successfully decrypting a bounded challenge generated specifically for that registration. This is a possession check, not proof of the person's maintainer role. Only the independent authority establishes that role. A maintainer may publish the policy digest/key through Discord for visibility; a node signature or a familiar Discord account cannot self-grant maintainer authority.
 
 Clients remember the highest accepted policy sequence. Production policies expire within 24 hours by proposed default. Independent publication of signed policy updates and revocations limits withholding; every online refresh still uses Tor. Recovery from expired trust or root compromise requires an independently verified replacement bundle. Normal operation has no `--ignore-key-mismatch` bypass.
+
+Z>>> A03 (High, corroborated by three passes): a 24-hour expiry on a policy signed by offline 2-of-N administrators is a daily ceremony and a crisis-time outage; if the signers are unavailable for 48 hours all reporting stops. "Independent publication" names no channel, so every refresh is GET /v1/policy from the relay. Undefined: ciphertext encrypted under policy N and retried after N+1 with the same recipient key (line 68 covers accepted submissions only); what the registration record's policy_sha256 (line 93) is compared to during its 30-day life. See adversarial.md A03. <<<Z
 
 Rotation keeps already accepted ciphertext associated with its original policy. Re-encryption is not possible without sender/maintainer cooperation. Old maintainer keys may be needed for pending or retained reports. Policy distinguishes accepting new submissions, dispatching already accepted ones and allowing historical verification. A compromised recipient key freezes new submissions; queued data is quarantined under explicit incident policy rather than silently sent to a replacement recipient.
 
@@ -104,6 +116,8 @@ Placeholders and zero times above illustrate types; this is not a usable registr
 
 The registration digest is SHA-256 over canonical UTF-8 JSON. It covers the full encryption key, including long post-quantum recipients, without requiring that key to fit in a Discord post. Keep the immutable full record locally and submit it through the onion registry. The exact public announcement text is:
 
+Z>>> A05 (High): two digests exist and the text never says which one the node key signs, which goes into the announcement marker, and which the possession statement carries. Line 103 hashes "the non-challenge registration fields"; this line hashes the record, which includes challenge_id, challenge_nonce, issued_at and expires_at. If the parent signs the full record, every 15-minute challenge retry invalidates an already-posted announcement. "Canonical UTF-8 JSON" is not stated to be the RFC 8785 JCS required at line 140. See adversarial.md A05. <<<Z
+
 ```text
 THOR-RELAY-REGISTER-V1 sha256=<64-lowercase-hex-registration-digest>
 ```
@@ -119,13 +133,21 @@ There are two explicit verification paths:
 
 Assurance labels are preserved in every submission bundle and shown by recipient tooling. A witnessed record cannot be silently upgraded to `node-signature-verified`. The preferred long-term automated path uses cryptographic evidence, without a live Discord dependency for routine reports.
 
+Z>>> A01 (Critical) / A05 (High) / A06 (High): path 1 has no implementation route today (line 117 and line 399), so every production registration will use path 2, which the document never concludes. Path 1 gives no byte format, hash mode or envelope for the Cosmos secp256k1 signature; a 32-byte digest signed as a pre-hash is a cross-protocol hazard with transaction signing. Path 2's only signature verification is performed by the THORChain Discord relay server operator, a third party absent from the key table and the privacy promise; the attestation's bot ID defeats webhook impersonation only if registrars check the author application ID, which is not stated; two registrars from one organisation protect against nothing. See adversarial.md A01, A05, A06. <<<Z
+
 ### Confirming control and accepting registration
 
 The communication key signs a domain-separated possession statement containing the registration digest and relay challenge. The relay also creates a random 32-byte token, age-encrypts a small fixed-format challenge to the registered reply recipient, and requires a communication-key-signed proof containing its digest and challenge ID after local decryption. Challenges are specific, single-use and short-lived; no endpoint/helper accepts arbitrary ciphertext for decryption or reports detailed decrypt errors.
 
+Z>>> A28 (Low): the client decrypts a relay-chosen ciphertext with its long-term age identity and signs a digest of the result. The rule "no endpoint/helper accepts arbitrary ciphertext for decryption" must also bind the client: parse the fixed format and verify challenge ID, service and environment before signing. See adversarial.md A28. <<<Z
+
 Proposed limits: direct registration challenge 15 minutes, witnessed registration challenge 48 hours, reply-key possession challenge 10 minutes, certificate validity at most 30 days; possession attempts bounded globally and per parent. Longer witnessed windows do not retain upload reservations. Both keys must be demonstrated before activation. Default accepted node statuses are Active and Standby; jail is included as a warning rather than independently making an incident report impossible. Disabled/other states require a separately labeled, policy-authorized recovery attestation. Never fall back to anonymous acceptance after failed chain verification.
 
+Z>>> A01 (Critical): no emergency lane exists for an operator who has not pre-enrolled; R08 asked for "a separate limited lane with an explicit unverified label". A15 (Medium): with a 15-minute registration challenge, a 10-minute possession challenge and "both constraints must hold at acceptance", a flow where evidence is submitted at t=12 and possession confirmed at t=17 fails although every step was in-window. A16 (Medium): THORChain also has Ready and Whitelisted statuses; a Ready node is "other" here and would need a recovery attestation. See adversarial.md A01, A15, A16. <<<Z
+
 Registration states: `pending -> evidence-verified -> possession-verified -> active`, or `rejected/expired`. Acceptance atomically consumes the challenge and inserts the registration. Repeating identical evidence returns the same result; conflicting records or epochs fail. Current chain authority is rechecked on each report admission and before first dispatch, not only at registration.
+
+Z>>> A07 (High): "independent chain state" has no named source; the realistic source is the relay operator's own node, independent of the submitter but not of the relay. No validation height, time or source identifier is recorded in the outer manifest or receipt, and no maximum staleness is defined (R03 asked for both). A16: an operator-account registration whose node_operator_address changes mid-certificate fails this recheck with no stated handling, while a node-account registration keeps working. See adversarial.md A07, A16. <<<Z
 
 ### Renewal, rotation and revocation
 
@@ -134,6 +156,8 @@ Each fresh epoch requires a new parent-authorized registration or permitted regi
 Old registrations become superseded for new admission at activation of the new epoch. Registered reply-key changes are treated as key rotation, not an unauthenticated profile edit. No certificate authorizes accounts or recipients outside its fixed service/environment/chain.
 
 A communication key may revoke itself. Parent-authorized revocation and threshold policy-authority emergency freezes can revoke an entire parent or certificate. A new announcement does not automatically clear an emergency freeze. Clients/relay reject revoked keys for new reports. Maintain revocation epochs and effective times durably; retain enough policy evidence for historical verification. A receipt issued by a compromised relay is not a trustworthy timestamp proving a stolen key was used before compromise. Independently witnessed timestamps would be needed for that stronger claim.
+
+Z>>> A14 (Medium): "cannot renew its own authority indefinitely" implies bounded self-renewal, contradicting the first sentence of line 132. Rotation signs continuity with the previous key, but lost keys use the same parent authority, so the relay cannot distinguish rotation from recovery and continuity carries no enforcement weight unless a flag exists; none is defined. In-flight reservations at an epoch boundary have no defined outcome. See adversarial.md A14. <<<Z
 
 ## Message protocol
 
@@ -161,6 +185,8 @@ V1 supports one file and a message. The communication key signs the content mani
 
 Encrypt the package locally to the policy's maintainer recipient, finalize immutable ciphertext, then calculate its SHA-256 and length. Preserve the exact ciphertext for retries. Do not upload plaintext, its hash, filename, message or descriptive subject outside encryption. The original file is not automatically deleted or modified. Implementers must provide fixed framing/canonicalization fixtures and interoperable tests rather than choosing a different container.
 
+Z>>> A12 (Medium) / A13 (Medium) / A29 (Low): reply_registration_sha256 is invisible to the relay and unresolvable by the maintainer (the bundle carries only the submitting registration), and nothing requires it to equal registration_sha256. For every *_sha256 except the status capability the pre-image is unstated (JCS body? signed envelope? bech32 recipient string? raw key bytes?). "One file and a message" with "exactly one attachment" leaves a message-only report undefined. See adversarial.md A12, A13, A29. <<<Z
+
 ### Admission and complete upload
 
 The signed outer manifest contains:
@@ -180,6 +206,8 @@ Proposed submission challenge lifetime: 5 minutes, with an admitted upload reser
 
 Atomically persist accepted submission metadata, consumed challenge/reservation, quotas and outbox job. Bounded pending uploads live outside that transaction and are deleted after failed/expired validation. Server restarts cannot reset replay protection. Admission/outbox storage must be durable; process-local caches are insufficient.
 
+Z>>> A03 / A13 (Medium): deduplication "keys on environment, sender and submission ID" without defining sender. If sender is registration_sha256, a legitimate retry after key rotation is a second accepted job and a duplicate mail while inner and outer registration digests now disagree; if it is the parent address, the retry deduplicates but the disagreement remains. Row 5's "one accepted job" depends on this choice. The challenge's "submitted context digest" (line 245) cannot be over the manifest, which contains the challenge. See adversarial.md A13. <<<Z
+
 ### Mail transport and recipient verification
 
 The mail worker copies the original evidence, registration, policy, outer manifest/signature and ciphertext into a complete submission bundle, then age-encrypts that bundle to the same approved report recipient. Mail plaintext framing is ASCII `THOR-RELAY-MAIL-v1\n`, a four-byte unsigned big-endian metadata length, JCS metadata `{registration, authorizer_evidence, policy, outer_manifest, outer_signature, admission_receipt}`, an eight-byte unsigned big-endian ciphertext length, the original ciphertext bytes and EOF. Metadata is capped at 256 KiB, includes all required historical attestations, and contains no private key. Metadata/body caps and exact EOF are checked before allocations/processing. Size limits account for this wrapper and MIME overhead.
@@ -187,6 +215,8 @@ The mail worker copies the original evidence, registration, policy, outer manife
 This additional envelope hides node identity/signatures from email providers. The relay still has no report decryption key. Revalidate routing, revocations and recipient incident policy before first dispatch.
 
 Use one fixed server-configured destination, a relay From address, a generic subject, a random generic attachment name and no operator Reply-To. No client email headers, CC/BCC, arbitrary recipient, callback URL or remote-file URL. Base64/MIME overhead counts toward the actual mail-provider limit; choose limits conservatively after testing that provider. Retry temporary failures with bounded backoff; quarantine persistent/uncertain cases visibly. Do not claim exactly-once SMTP delivery. Duplicate messages preserve the signed submission ID; recipient tooling deduplicates them.
+
+Z>>> A08 (High): no provider, domain or credential owner has been chosen; ~14 MB on the wire after metadata, wrapper and base64 fails common 10 MB inbound limits; an unknown relay From address with a generic subject and a random-named opaque binary is the spam-quarantine profile; there is no bounce handling beyond "quarantine visibly". The maintainer already runs the CLI over Tor (line 209), so an onion pull of the bundle removes the provider, credentials, size limit and permanent third-party copy. R10 recommended exactly that; this document keeps attached email without recording why. A14: "revalidate … before first dispatch" (line 187) does not say whether a receipted report whose node churned out or whose key was superseded is sent, quarantined or dropped. See adversarial.md A08, A14. <<<Z
 
 The maintainer locally:
 
@@ -197,6 +227,8 @@ The maintainer locally:
 5. Signs an optional acknowledgement binding submission ID, registration, policy, ciphertext hash, environment and outcome (`received`, `verified`, or `reviewed`). Neither acknowledgement nor signature establishes that a report is true.
 
 A failure discards staged output and leaves an explicit verification error. Valid-node files remain hostile input. Inspection/redaction occurs locally; the CLI never automatically collects node backups or key directories.
+
+Z>>> A13 (Medium): "identity agreement" in step 3 never lists which inner and outer fields must agree, and R06's "explicitly authorized forwarding relationship" is neither defined nor forbidden. A07 (High): step 2's "retained trustworthy history" has no named retainer; THORNode prunes by default, and if the relay retains it the maintainer is checking relay evidence against relay history, contradicting "A relay's verified label is insufficient". See adversarial.md A07, A13. <<<Z
 
 ### Receipts, status and replies
 
@@ -209,6 +241,8 @@ Acknowledgements and optional human replies are encrypted to the operator's regi
 The proposed maintainer-response upload is also onion-only. Its signed manifest binds environment, service, original submission/registration/ciphertext digests, current acknowledgement policy, response ID/type, reply-recipient fingerprint, encrypted response digest/length and a single-use response challenge. Use distinct signature purposes for response admission and response content. The relay verifies the current policy-authorized maintainer key, original accepted submission, challenge and bounded body; it cannot decrypt the reply. V1 permits one acknowledgement and one human reply per report, each at most 32 KiB ciphertext, with atomic response-ID deduplication and independent quotas. Signed content inside reply encryption binds the same original context; operator tooling verifies it before presentation. A relay label alone never authenticates the response. Exact response schemas, encoding fixtures and maintainer-tool interoperability remain required before this optional feature ships.
 
 Return replies only through the status capability; email notification contains no operator email. A stolen reply age identity does not authorize new submissions. Public registration keys do not confer permission for an open bidirectional email relay.
+
+Z>>> A12 (Medium) / A23 (Medium): the relay's listed response checks never include "reply-recipient fingerprint equals the accepted submission's registered recipient". The operator's only policy source for checking the acknowledgement key is the relay, which can serve a still-valid previous policy beside a response signed with a just-replaced key; after a normal ack-key rotation, line 68's historical-verification mode is not applied to responses. See adversarial.md A12, A23. <<<Z
 
 ## Proposed CLI and API boundaries
 
@@ -244,6 +278,8 @@ bodferd receive respond              # Local signed/encrypted response; Tor-only
 
 Every endpoint is on the dedicated onion service. Requests cannot select URLs/providers/SMTP routes. Signed challenges bind service, chain, environment, purpose, submitted context digest, nonce and expiry; the client verifies the policy-authorized receipt key. Token-bearing headers and bodies are redacted from access/error/trace logs. No public registry dump or list of submitted reports.
 
+Z>>> A23 (Medium): POST /v1/maintainer-response-challenges is described as "policy-key-signed", which names the offline authority as a per-request signer; every other challenge is relay-key-signed (line 39). Likely a wording slip; must be fixed before implementation. See adversarial.md A23. <<<Z
+
 ## Standalone repository, deployment, resources and retention
 
 Use this standalone repository for the future CLI, relay, operator/maintainer tooling and documentation. Suggested implementation directories are `cmd/`, `internal/`, `protocol/`, `deploy/` and `docs/`; the current tree ships documents only. Keep this service isolated from unrelated applications and credentials.
@@ -255,6 +291,8 @@ Deploy separately from the swap server and its registrar credentials: dedicated 
 Keep server-side credentials only as estate-PGP SOPS records under `k8s/creds/`. The relay never receives operator signing/age secrets or maintainer age identities. Operator and maintainer CLI identity files reside in their own protected local environments, outside repository artifacts. Read-only root filesystem, non-root execution, least privilege and resource caps are required. If deployed in the existing estate, all cluster changes follow git/CI/Flux; no local Docker builds or direct cluster mutations. Establish dedicated repository CI and deployment configuration before first deployment.
 
 The submitter needs a local Tor client, not a public relay. The client transport exclusively uses a configured local SOCKS endpoint, passes the pinned onion hostname through SOCKS, rejects redirects/direct fallback, and uses supported stream isolation. No telemetry or background direct-network checks. A high-assurance deployment may restrict the submission process's network access to that local endpoint; local/offline signing remains explicit. Public Discord enrollment is a separate, visibly public operation and is not covered by the Tor-only submission promise.
+
+Z>>> A09 (High): the onion hostname is the service_id pinned in every registration, manifest and policy, so losing or rotating the onion key re-enrolls the entire operator base through the 48-hour path; onion key custody, HA and Tor daemon upgrades are not mentioned. Replay and admission state must be durable, spools are excluded from backups, and nothing says what is backed up: the registration table, consumed-challenge store, tombstones and the revocation high-water marks that must outlive certificates. A host loss with no restore makes revoked keys valid again. See adversarial.md A09. <<<Z
 
 Proposed pilot defaults, subject to provider/load verification before production:
 
@@ -274,6 +312,8 @@ Hash/ID tombstones and minimal authorization records still constitute potentiall
 
 V1 has no padding bytes: its exact framing ends at EOF after the attachment. A future version may define authenticated padding to policy-defined size buckets inside client encryption, with explicit framing and interoperability fixtures; overhead counts toward quotas. Batching/delay is optional and disabled for urgent incident reports by default. Static age keys do not supply forward secrecy; rotation and short retention reduce exposure but do not erase mail archives. Supported post-quantum encryption can address future cryptanalysis, not private-key theft. True forward secrecy needs a separately reviewed protocol/key lifecycle.
 
+Z>>> A19 (Medium): 512 MiB is about 50 maximum-size reports draining through one mailbox; the only relief is "signed-policy incident adjustment", i.e. the A03 offline ceremony during the incident. R13 asked for reserved incident capacity; this is a quota. A20 (Medium): with minimal logs, no public status and no push, a broken SMTP credential, a spam rule, an expired policy or a dead Tor daemon all look like "no incidents today"; no canary or heartbeat is designed. See adversarial.md A19, A20. <<<Z
+
 ## All ten review controls integrated
 
 | Review item | Owning mechanism | Required acceptance evidence |
@@ -291,6 +331,8 @@ V1 has no padding bytes: its exact framing ends at EOF after the attachment. A f
 
 Also test registration key possession, public-announcement substitution, compromised Discord/registrar behavior, wrong maintainer role, simultaneous epoch rotations, emergency freeze persistence, capability substitution, storage loss/restart, retention cleanup, and post-compromise receipt backdating limits. Independent protocol review and implementation evidence are required before marking any control implemented.
 
+Z>>> A22 (Medium): no row maps to an R-number; the review has nineteen findings. A17: Row 10 omits R12's "production refuses to start with test configuration and vice versa". A07: Row 6 claims "fresh state" without a recorded height or staleness bound (R03). A01: Row 6 and the R08 remediation have no emergency lane. See adversarial.md A01, A07, A17, A22. <<<Z
+
 ## Evolution into secure operator and trusted-group communications
 
 The intended direction includes operator-to-operator conversations and conversations with THORNode developers and explicitly trusted groups. V1 implements confidential reporting and bounded encrypted replies only. The identity registry is a foundation for later messaging; a report registration is not a grant to join any group, discover all operators, or retrieve another operator's inbox.
@@ -300,6 +342,8 @@ The intended direction includes operator-to-operator conversations and conversat
 Bodferd should own the chain-to-communication identity binding, developer-role attestations, verification display and group admission policy. It should delegate conversation encryption, session state and device management to an established system or independently reviewed implementation. Evaluate an integration with an existing end-to-end encrypted messenger before building a separate transport. Signal documents distinct protocols for key agreement, ratcheting and multi-device sessions; importing its library alone does not establish compatibility with the Signal service. [Signal technical documentation](https://signal.org/docs/).
 
 For an independent group transport, evaluate a maintained, audited implementation of Messaging Layer Security. RFC 9420 specifies asynchronous group key establishment with forward secrecy and post-compromise security. MLS is a cryptographic component, not a complete chat application, identity directory or anonymity system. Selection of a product/library, versions and license compatibility remains a separate design decision. [RFC 9420](https://www.rfc-editor.org/rfc/rfc9420).
+
+Z>>> A21 (Medium): MLS assumes exactly the split this document already has (trusted Authentication Service = the Bodferd registry; largely untrusted Delivery Service) with group state, membership, epoch rotation and removal inside the protocol, and OpenMLS / mls-rs are built for third-party use with permissive licences and uniffi bindings, which satisfies the "no bespoke FFI" rule from Go where libsignal cannot. Two cautions: neither claims an independent full audit (mls-rs states so; OpenMLS had advisory GHSA-qr9h-x63w-vqfm in 2025, fixed in 0.7.1), so "audited implementation" may be unsatisfiable as written; group ID and epoch are visible to the delivery service. See adversarial.md A21. <<<Z
 
 Do not turn the email relay into a chat server, distribute a shared static age group identity, build a home-grown ratchet, or treat adding recipients to an age header as group membership security. V1 report keys and durable content signatures retain their original semantics. Separate protocol versions and keys must distinguish future conversation traffic from evidentiary incident reports; conversation authentication and deniability requirements need explicit review rather than automatically signing every chat message with the report key.
 
@@ -311,6 +355,8 @@ Do not turn the email relay into a chat server, distribute a shared static age g
 | THORNode developer / maintainer | Independent signed role roster, with out-of-band bootstrap | Actions allowed by that developer role; no automatic node account authority |
 | Group administrator | Explicit group-specific policy | Invitations, removals and permitted membership changes in that group |
 | Directory / delivery server | No independent role-granting authority | Routing and bounded storage; no silent key substitution or membership expansion |
+
+Z>>> A21 (Medium): if zkgroup is adopted (line 385), whoever holds ServerSecretParams can issue an auth credential for any UID it knows and knows every UID it issued to; the issuer is a membership-authority root and belongs in this table as a trusted role. See adversarial.md A21. <<<Z
 
 Future device credentials bind a device's messaging-protocol public keys to a communication identity, environment, expiry, credential sequence and allowed purposes. They use protocol-native keys and formats where required; the age reply key is never silently repurposed. New-device enrollment requires existing trusted-device approval or explicit parent/role-authorized recovery. Merely authenticating to the relay, controlling an email address or presenting a stale node certificate cannot enroll a device. Key changes appear to peers and administrators with a verification path independent of the directory.
 
@@ -340,6 +386,8 @@ This section is a proposed integration design, not an implemented Signal client.
 
 Signal's server is also open source, but running it brings infrastructure requirements, including FoundationDB, and does not alone provide the complete product or operational setup. A source fork is not a turnkey private Signal deployment. [Signal-Server build documentation](https://raw.githubusercontent.com/signalapp/Signal-Server/main/README.md).
 
+Z>>> A10 (High): "including FoundationDB" understates the magnitude. The server config also requires DynamoDB, four Redis clusters, object storage, APNs and FCM, a registration service, SGX contact discovery, SVR and server zk parameters; and the groups backend (encrypted roster, GroupChange authentication, credential issuance) is a separate AGPL repository, storage-service on Bigtable, not Signal-Server. See adversarial.md A10. <<<Z
+
 The inspected libsignal and server projects use AGPLv3. Bodferd's current original documents and static reading code are MIT-licensed; that does not relicense incorporated Signal code. Choose a compatible distribution structure and satisfy the relevant upstream license before adding a dependency or fork. License selection for a combined messaging product remains a recorded decision. [libsignal license](https://github.com/signalapp/libsignal/blob/main/LICENSE).
 
 ### A. Integrating with the existing Signal application
@@ -349,6 +397,8 @@ A companion mode can verify a node-authorized Bodferd registration, then help an
 Group administrators can inspect current Bodferd credentials, approve invitations and remove members through Signal's normal controls. Signal supports private groups, administrator controls and optional administrator approval of invitations. [Signal group documentation](https://support.signal.org/hc/en-us/articles/360007319331-Group-chats).
 
 This route preserves the existing app's UX and update path, but stock clients do not implement the proposed Bodferd credential rules. This design has not established a supported Signal bot, enrollment or group-management API. A companion label is advisory; it cannot compel an unmodified client to stop sharing group keys after a chain-role revocation. Do not put a decryption bot in every group to enforce membership: that gives the bot access to content and group relationships. Do not claim this route meets Tor-only transport without demonstrating every network path. Use it as an optional pilot, not an automatic fulfillment of the intended policy.
+
+Z>>> A11 (High): this option cannot meet the Tor-only gate at line 257: stock Signal's push (APNs/FCM), CDN, SGX contact discovery, phone-number registration and SVR paths are fixed by the Signal service, official clients offer only a TLS proxy, and a phone number is an identity disclosure never budgeted here. The challenge-in-conversation at line 347 proves that whoever controls the Signal account's sessions can also sign with the comms key at that instant; it does not bind the identity key the service served the peer, and stock Signal exposes no API from which a companion can obtain it. "Administrator approval of invitations" at line 349 is the group-link join-request setting, not invitations. The design should conclude that this option fails its gates rather than pilot it. See adversarial.md A11. <<<Z
 
 ### B. An independent client using Signal components
 
@@ -362,11 +412,15 @@ The candidate architecture has three explicit boundaries:
 
 The first reporting CLI may remain Go. A future client can use an upstream-exposed TypeScript/Java/Swift interface or a reviewed Rust integration, without claiming that a Go wrapper already exists. Do not build bespoke FFI, prekey or ratchet code as a shortcut. An independent network uses its own service identifiers and deployment; neither stock Signal-server compatibility nor access to Signal's production network is assumed.
 
+Z>>> A10 (High): the identity/policy layer is Go, libsignal has Java/Swift/TypeScript bindings only, and bespoke FFI is forbidden, so the "narrow adapter" in the table above is either FFI, an IPC boundary with a bespoke control protocol, or a second implementation of the verifier in another language. State the consequence: Option B is a new client in TS/Java/Swift/Rust. Also: libsignal supplies a sender-key cipher and distribution messages, not a group system; roster, membership operations, group identifiers and credential issuance live in storage-service and the Signal app code and would have to be written. See adversarial.md A10. <<<Z
+
 Retain library-native authenticated session establishment and ratchet behavior instead of changing KDF inputs or mixing chain signatures into message encryption. Signal publishes PQXDH, Double Ratchet and multi-device session specifications; the selected implementation/version and complete session lifecycle must establish the exact supported security properties. Forward secrecy and compromise recovery require correct state handling, key deletion and subsequent honest exchanges; changing a dependency name does not establish them. Group properties must be evaluated separately from pairwise ratchets. [PQXDH specification](https://signal.org/docs/specifications/pqxdh/), [Double Ratchet specification](https://signal.org/docs/specifications/doubleratchet/), [Sesame specification](https://signal.org/docs/specifications/sesame/).
 
 ### Bind trust to the actual device; do not alter the ratchet
 
 A proposed Bodferd messaging credential binds: application purpose/version, environment and chain, authorizer evidence, communication registration digest, subject identifier, messaging device ID, hash of the protocol-native public identity key, credential sequence, issued/expiry times, issuer and explicit capabilities. The communication identity authorizes its device; independent policy grants developer/group-administrator roles. Demonstrate possession through the selected messaging protocol before activation. Do not assume libsignal identity keys are Ed25519, convert age identities, or reuse node secrets as ratchet material.
+
+Z>>> A10 (High): libsignal identity keys are Curve25519 (type byte 0x05, XEdDSA signatures) and in Signal's deployed model are per account, shared by every linked device; (device ID, hash of identity key) is therefore (device ID, hash of account key) and does not identify a device, so "role revocation removes all affected devices" at line 379 cannot be expressed as rejecting an identity key. Choose per-device keys (a departure from the Sesame model cited at line 365) or per-account binding, and say which of the ACI or PNI identity key is hashed. A25 (Low): two identity roots with no stated conflict order for honest re-key or stale credential. See adversarial.md A10, A25. <<<Z
 
 Peers verify the full binding and current authorization before establishing a trusted conversation. The UI shows provenance such as node-signature-verified or registrar-witnessed, role issuer, last chain-state check, expiry and device changes. A witnessed node binding never becomes a stronger label just because it travels through Signal encryption. A delivery server cannot swap an identity key while retaining the old certificate; clients reject mismatch rather than silently applying trust-on-first-use.
 
@@ -379,6 +433,8 @@ Group policy names eligible roles, permitted assurance levels, policy owner, inv
 Clients refuse unapproved device additions and policy changes, authenticate the resulting membership revision and stop new confidential sends when removal/key update is pending or views conflict. Role revocation removes all affected devices through the selected group protocol and stops distributing new sender/group secrets to them. Verify the concrete libsignal/client implementation's removal, key-rotation and queued-message behavior; private-group administration alone is not proof of group post-compromise security. Already authorized members can still retain or copy messages, forward secrets, or collude. A bot or server-side ACL cannot revoke previously learned plaintext.
 
 Different read audiences use different encrypted groups. Giving every member the same decryption secret and hiding developer-only messages with a UI role check does not enforce confidentiality. The signed trust credential authenticates eligibility; it is not attached as a transferable node signature to every chat message. Incident reports can remain durably signed while conversation deniability requirements are assessed separately.
+
+Z>>> A21 (Medium): decide rather than defer. Eligibility can only be checked at session establishment and group admission; sender-key group messages carry a per-chain signature and are not deniable among members; and the Bodferd credential is by construction a durable transferable proof that node N operates identity key K. That is materially weaker than pairwise Signal and should be stated as the chosen property. See adversarial.md A21. <<<Z
 
 ### Preserve group privacy rather than exposing roles to every server
 
@@ -397,5 +453,7 @@ Before selecting this path, the investigation must demonstrate two operators and
 ## Remaining implementation prerequisites
 
 The design is complete enough to define boundaries, but these external facts remain unverified: actual maintainer/registrar identities and fingerprints; permission/access for any future Discord integration; original signed-envelope export from supported node releases; wallet sign-only format compatibility; independent chain verifier availability and historical-state retention; dedicated onion provisioning; provider attachment/TLS limits; pilot resource/retention suitability. Container framing is specified above; interoperable implementation fixtures remain required validation work.
+
+Z>>> A01 (Critical): draw the conclusion these prerequisites imply: until an upstream sign-only or export primitive ships, production enrollment is registrar-witnessed only, operators must pre-enroll, and a non-enrolled operator cannot report during an incident. A02: the release signer, the out-of-band fingerprint channel and the independent revocation publication location belong on this list. See adversarial.md A01, A02. <<<Z
 
 None requires substituting a weaker claim. Prefer direct cryptographic enrollment; witnessed `make relay` is available only with explicitly authorized registrar trust. Bootstrap maintainer roles independently. Ship initially to the synthetic test environment, verify all controls, and then provision production through the repository release process when requested. This document does not activate services, publish keys, register users, send mail or authorize use of unprovisioned production secrets.

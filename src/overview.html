@@ -4,6 +4,8 @@
   <p>The operator registers a dedicated communication key, encrypts each report locally to a verified maintainer recipient, and sends opaque ciphertext through an isolated relay. The maintainer verifies the original signatures and decrypts the report in their own environment.</p>
   <div class="status-note"><strong>This is a design document.</strong> The CLI and service are not implemented. The reading website is separate from the future Tor-only relay.</div>
   <dl class="document-facts"><div><dt>Operator identity</dt><dd>Verified against chain authority</dd></div><div><dt>Report contents</dt><dd>Encrypted before upload</dd></div><div><dt>Relay visibility</dt><dd>Node identity, timing and size</dd></div></dl>
+
+<!-- Z>>> A22 (Medium): present-tense facts for unprovisioned state. design.md:13 and :399 say no chain verifier, recipient identity or roster exists. Reword as requirements: "Must be verified against chain authority". See adversarial.md A22. <<<Z -->
 </section>
 <section id="architecture">
   <h2>Two channels, one chain of trust</h2>
@@ -25,6 +27,8 @@
   <p>THORChain’s existing release instructions already describe publishing an age public key through <code>make relay</code> to receive encrypted patches. The existing command signs <em>and broadcasts</em>; it is never the confidential report transport. <a href="https://dev.thorchain.org/release.html" rel="noreferrer">Read the official release procedure</a>.</p>
   <h3>Two evidence paths, clearly labeled</h3>
   <dl class="evidence-paths"><div><dt>Original node signature · preferred</dt><dd>Import the original signed relay envelope, when available, or use a separate sign-only adapter. Verify the actual signature and chain authority independently.</dd></div><div><dt>Registrar-witnessed · additional trust</dt><dd>When only the unmodified Discord announcement is available, designated registrars verify it and issue policy-authorized attestations. Production proposes two independent witnesses. Screenshots and usernames are insufficient.</dd></div></dl>
+
+<!-- Z>>> A22 / A01: the "preferred" path has no implementation route today (design.md:117, :399); say so, and that production enrollment is registrar-witnessed only until an upstream primitive ships. See adversarial.md A01, A22. <<<Z -->
   <p>Maintainer keys need an independent role-authorizing policy. A node signature can establish node authority; it cannot appoint its signer as a THORChain maintainer.</p>
 </section>
 <section id="private-report">
@@ -33,10 +37,14 @@
   <div class="status-note"><strong>Admission is not decryption verification.</strong> An opaque relay can validate authorization, exact bytes and bounded age structure. Only the maintainer can establish that the report decrypts successfully.</div>
   <p>Receipt states distinguish acceptance, queueing, SMTP acceptance, failure and a maintainer-signed acknowledgement. The operator retrieves acknowledgements and encrypted replies through a private Tor polling capability.</p>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Environment routing"><table><thead><tr><th scope="col">Environment</th><th scope="col">Fixed destination</th><th scope="col">Separation</th></tr></thead><tbody><tr><td>Test</td><td><code>pfc@pfc.zone</code></td><td>Synthetic reports; separate policies, keys and queues</td></tr><tr><td>Production</td><td><code>itzamna@thorchain.org</code></td><td>Independently confirmed recipient identity</td></tr></tbody></table></div>
+
+<!-- Z>>> A22 (Medium): "Independently confirmed recipient identity" is false today; design.md:13 says neither the email string nor the document establishes ownership of an age identity. See adversarial.md A22. <<<Z -->
 </section>
 <section id="security">
   <h2>Security controls built into the design</h2>
   <p>The protocol incorporates all ten findings from the initial review. Each control has an observable acceptance check in the full reference.</p>
+
+<!-- Z>>> A22 (Medium): the review has nineteen findings (R00–R18), not ten, and contains no ten-item summary; "observable acceptance check" overstates a column of prose requirements that brief 01 calls "acceptance requirements, not implementation evidence". See adversarial.md A22. <<<Z -->
   <ul class="control-list"><li><strong>Honest encryption claims:</strong> the maintainer verifies decryptability; the relay never claims to have decrypted.</li><li><strong>Independent recipient trust:</strong> signed policy, pinned authority, expiry and rollback rejection.</li><li><strong>Scoped delegation:</strong> separate communication keys, short validity, fresh authority checks and durable revocation.</li><li><strong>Exact signature binding:</strong> inner content authorship plus outer ciphertext and destination context.</li><li><strong>Durable replay protection:</strong> one-use challenges, atomic outbox insertion and idempotent retries.</li><li><strong>Defined operator eligibility:</strong> exact node/operator authority; unrelated bond providers excluded.</li><li><strong>Tor-only submission:</strong> pinned onion, local SOCKS, no redirect or direct fallback.</li><li><strong>Metadata minimization:</strong> encrypted filenames and sender proofs, generic email, bounded retention.</li><li><strong>Abuse and file defenses:</strong> admission before upload capacity, parent quotas, global caps and staged verification.</li><li><strong>Delivery and environment separation:</strong> fixed routes, distinct keys and signed end-to-end acknowledgement.</li></ul>
   <p>A valid node signature does not establish that the report is true, the operator is uncompromised, or the attachment is safe. The relay can still suppress delivery. A compromised plaintext endpoint can still expose a report.</p>
 </section>

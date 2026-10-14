@@ -13,10 +13,12 @@ Independent review of the draft Bodferd protocol. Implementation is not authoriz
 
 | # | Brief | Wave | Effort | Status | Verified | Reviewed |
 |---|-------|------|--------|--------|----------|----------|
-| 01 | [Review and approve the reporting design](./brief-01-review-and-approve-the-reporting-design.md) | 0 | M | todo | — | — |
+| 01 | [Review and approve the reporting design](./brief-01-review-and-approve-the-reporting-design.md) | 1 | M | todo | — | — |
+| 02 | [Resolve adversarial review findings in the reporting design](./brief-02-resolve-adversarial-review-findings-in-the-reporting-design.md) | 0 | M | todo | — | — |
 
 ## Critical path
-Brief 01 is standalone.
+Brief 02 revisions → brief 01 independent re-check and human ruling. On-chain publication/complete verification remain external gates before implementation.
 
 ## Dependency waves
-- Wave 0: 01
+- Wave 0: 02 (revisions)
+- Wave 1: 01 (independent re-check / human ruling)

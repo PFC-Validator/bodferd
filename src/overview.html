@@ -6,13 +6,13 @@
   <p class="lead">Private reports from THORChain node operators to maintainers.</p>
   <p>In the proposed first version, <strong>you submit through Tor; maintainers receive an encrypted email attachment.</strong> Your computer signs and encrypts the report before sending it. A relay checks your authorization and forwards the encrypted package without being able to read its contents.</p>
   <div class="status-note"><strong>This is a design document.</strong> The CLI and service are not implemented. The reading website is separate from the future Tor-only relay.</div>
-  <dl class="document-facts"><div><dt>Operator identity</dt><dd>Must be verified against current chain authority</dd></div><div><dt>Report contents</dt><dd>Must be encrypted locally before upload</dd></div><div><dt>Relay visibility</dt><dd>Node identity, timing and size</dd></div></dl>
+  <dl class="document-facts"><div><dt>Operator identity</dt><dd>Must be verified against current chain authority</dd></div><div><dt>Report contents</dt><dd>Must be encrypted locally before upload</dd></div><div><dt>Relay visibility</dt><dd>Node/member credentials, timing and size</dd></div></dl>
 
 </section>
 <section id="delivery">
   <h2>How a report is delivered</h2>
   <ol class="steps">
-    <li><strong>You register your identity.</strong> Prove that you control an eligible node and authorize a separate communication key.</li>
+    <li><strong>You register your identity.</strong> The node operator authorizes your own communication key. Several team members can be authorized for the same node.</li>
     <li><strong>You prepare a report on your computer.</strong> The Bodferd command-line tool signs your message and optional file, then encrypts them for the approved maintainers.</li>
     <li><strong>You send it through Tor to a relay.</strong> The relay checks your authorization and forwards the encrypted package to the designated maintainer mailbox. It cannot read the contents.</li>
     <li><strong>A maintainer decrypts and verifies it locally.</strong> Their tool checks who sent it and whether anything changed before presenting the report. If email fails, they can retrieve the package directly through Tor while it remains retained.</li>
@@ -30,7 +30,7 @@
     <figcaption>Maintainer recipient keys must come from a dual-authorized policy whose current on-chain commitment is independently verified. The chain publication adapter remains unproven. The relay never holds the report decryption identity.</figcaption>
   </figure>
   <h3>Who can see what?</h3>
-  <div class="table-scroll" tabindex="0" role="region" aria-label="Privacy boundaries"><table><thead><tr><th scope="col">Party</th><th scope="col">Visible information</th><th scope="col">Boundary</th></tr></thead><tbody><tr><td>Admission relay</td><td>Node identity, ciphertext, timing and size</td><td>No report plaintext or maintainer private key</td></tr><tr><td>Maintainer</td><td>Verified sender and report contents</td><td>Must decrypt and verify locally</td></tr><tr><td>Email provider</td><td>Relay, recipient, timing and approximate size</td><td>Report and sender proof stay encrypted</td></tr><tr><td>Public Discord</td><td>Node-linked registration announcement</td><td>No confidential messages or attachments</td></tr></tbody></table></div>
+  <div class="table-scroll" tabindex="0" role="region" aria-label="Privacy boundaries"><table><thead><tr><th scope="col">Party</th><th scope="col">Visible information</th><th scope="col">Boundary</th></tr></thead><tbody><tr><td>Admission relay</td><td>Node/member credentials, ciphertext, timing and size</td><td>No report plaintext or maintainer private key</td></tr><tr><td>Maintainer</td><td>Node-authorized credential, optional personal label and report contents</td><td>Must decrypt and verify locally</td></tr><tr><td>Email provider</td><td>Relay, recipient, timing and approximate size</td><td>Report and sender proof stay encrypted</td></tr><tr><td>Public Discord</td><td>Node-linked registration announcement</td><td>No confidential messages or attachments</td></tr></tbody></table></div>
   <p>Tor conceals connection location; the node signature identifies the sender to the admission relay. Static age recipient keys do not provide forward secrecy. These are explicit limits, not implementation defects to hide.</p>
 </section>
 <section id="registration">
@@ -45,6 +45,12 @@
   <p>No compatible sign-only adapter or raw-envelope exporter has yet been demonstrated. Until then, enrollment requires explicitly authorized witnesses; direct cryptographic enrollment is a future integration gate.</p>
   <p>Unenrolled operators use <code>make relay</code> for a public, non-sensitive contact request. Channel monitoring prompts follow-up; confidential reports require enrollment.</p>
   <p>Maintainer keys need an independent role-authorizing policy. A node signature can establish node authority; it cannot appoint its signer as a THORChain maintainer.</p>
+</section>
+<section id="operator-teams">
+  <h2>One node, several responsible people</h2>
+  <p>A node operator can authorize several team members. Each person uses their own communication signing key and reply age identity; routine reporting needs no shared node secret.</p>
+  <ul><li><strong>Independent grants.</strong> The node/operator authority approves each member’s keys, permissions and expiry. Adding a teammate does not replace anyone else.</li><li><strong>Optional personal identity.</strong> Send using the node and a pseudonymous credential, or add a name/handle inside the signed encrypted report. Names are self-described; the verified fact is node-authorized key possession.</li><li><strong>Separate offboarding.</strong> Rotate or revoke one member without disabling others. A node-wide emergency freeze still affects everyone.</li><li><strong>Shared limits.</strong> Team members share the operator’s quotas and incident capacity. Extra accounts do not create extra allowance.</li><li><strong>Private replies.</strong> A response returns to the submitting member. Team-wide history sharing needs separate, explicit authorization.</li></ul>
+  <p>Omitting a name does not hide the credential: maintainers and the admission relay can still distinguish keys and correlate their use. Future group messaging gives each person/device its own membership.</p>
 </section>
 <section id="private-report">
   <h2>From local file to verified report</h2>

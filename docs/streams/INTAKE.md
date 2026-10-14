@@ -25,3 +25,7 @@ Owner selected encrypted email plus Tor retrieval fallback. The design keeps the
 ## I-03 ruling — 2026-10-14
 
 Owner selected MLS-first investigation with libsignal retained as an alternative. Stock Signal is excluded from the compliant candidate set. Library/version/provider selection and actual integration/audit evidence remain future work; no messaging implementation is approved.
+
+## I-04 — 2026-10-14 — Multiple people responsible for one node
+
+Owner requires several people per node operator and optional individual attribution. Disposition: scoped → bodferd design. Parent authority remains the exact chain account; separate member IDs/credentials distinguish people operationally, epochs/revocation are per member, permissions and quotas are bounded, and personal labels remain opt-in inside encryption. Future MLS device/group admission consumes member credentials. Implementation and independent review remain pending.

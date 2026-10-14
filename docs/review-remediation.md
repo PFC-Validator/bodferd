@@ -26,3 +26,7 @@ Current source SHA-256: `f47aac58badc0be883d692fddc9231ed08c29e79e0ba6b689a6556e
 Re-read every disposition against the actual revised [design](design.md), especially the new roster/hash definitions and on-chain freshness replacement. The revision does **not** close A02/A03 provisioning facts: named initial signers/confirmation channels, the native policy-commitment carrier, consensus/completeness verification and independently retained chain history still lack evidence. Also check the restricted ADR-036 adapter against actual supported releases; it is not implemented or claimed available. No crypto interoperability tests have run.
 
 Production and implementation readiness remain gated on these facts, actual reader keys/provider/monitor/on-call owners, measured limits and independent cryptographic/parser review. Do not mark either brief verified/done from this document. No draft correction authorizes a maintainer identity, sends a transaction or approves a messaging stack for production.
+
+## Historical scope after the operator-team addition
+
+The hashes and developer validation above describe the external-review remediation in commit `6d44a81`, before the later multi-person requirement. They do not validate the new member schema, per-member lifecycle or optional attribution. That addition requires an independent protocol re-check; new reading-page build checks do not close that gate.

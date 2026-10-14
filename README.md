@@ -8,7 +8,8 @@ In the proposed first version, you submit a report through Tor and maintainers r
 - [Original security review](docs/security-review.md): nineteen findings and required verification.
 - [External review and dispositions](adversarial.md): thirty findings, draft corrections and residual gates.
 - [Owner decisions](docs/review-decisions.md): trust separation, roster, public incident contact and transport direction.
-- Reading edition: build `dist/` locally. Owner-private hosting details are kept outside the public repository.
+- [Public reading edition](https://pfc-validator.github.io/bodferd/): shareable GitHub Pages site, published from `gh-pages`. Build `dist/` locally for previews.
+- [Operator teams](docs/design.md#node-teams-and-optional-personal-attribution): several independently authorized people per node, with optional encrypted personal labels.
 - Future direction: operator-to-operator, developer and trusted-group communication through established messaging protocols, with a concrete Signal integration proposal in the design.
 
 Repository: https://github.com/PFC-Validator/bodferd. The reading website is separate from the future onion service. `docs/design.md` is the authoritative protocol source.

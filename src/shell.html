@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Design for confidential, node-authenticated THORChain reports: public authorization, local encryption, Tor transport and independent maintainer verification.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Bodferð — Design document</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="read.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#document">Skip to document</a>
+  <header class="masthead">
+    <a class="identity" href="#overview" aria-label="Bodferð overview"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 9h22M5 23h22M9 9v14m14-14v14M13 16h6"/></svg><span>Bodferð</span></a>
+    <div class="document-meta"><span class="draft-status">Design draft</span><span>14 October 2026</span></div>
+    <a class="download" href="design.md" download="bodferd-design.md">Download Markdown</a>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <details class="contents" open>
+        <summary>In this document</summary>
+        <nav aria-label="Document contents">
+          <a href="#overview" class="current" aria-current="location">Overview</a>
+          <a href="#architecture">Architecture &amp; trust</a>
+          <a href="#registration">Key registration</a>
+          <a href="#private-report">Sending a report</a>
+          <a href="#security">Security controls</a>
+          <a href="#future-communications">Future conversations</a>
+          <a href="#decisions">Open prerequisites</a>
+          <a href="#repository">Standalone project</a>
+          <details class="reference-nav"><summary>Full protocol reference</summary><ol>@@PROTOCOL_TOC@@</ol></details>
+          <a href="#security-review">Adversarial review</a>
+        </nav>
+      </details>
+      <div class="sidebar-note"><strong>Public authorization.<br>Confidential delivery.</strong><p>Separate signing and encryption keys. Separate enrollment and report transport.</p></div>
+    </aside>
+    <main id="document">
+      @@OVERVIEW@@
+      <section id="protocol-reference" class="technical-reference">
+        <h2>Full protocol reference</h2>
+        <p class="section-intro">The complete design, rendered from the authoritative Markdown. Contracts below are proposed; no CLI or relay is live.</p>
+        <a href="design.md" download="bodferd-design.md">Download this reference</a>
+        @@PROTOCOL@@
+      </section>
+      <section id="security-review" class="technical-reference">
+        <h2>Adversarial review</h2>
+        <p class="section-intro">The original findings remain open until implementation and verification establish that the controls work.</p>
+        <a href="security-review.md" download="bodferd-security-review.md">Download the findings register</a>
+        @@REVIEW@@
+      </section>
+      <footer><p>Bodferð · Design edition · 14 October 2026</p><a href="#overview">Back to top</a><button type="button" id="print-document" hidden>Print document</button></footer>
+    </main>
+  </div>
+</body>
+</html>

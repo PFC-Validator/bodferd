@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T17:51:45.248745+00:00",
+  "title": "Design System: Bodferð reading edition",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper white",
+        "tonalRamp": [
+          "oklch(0.15 0.00168 145.56)",
+          "oklch(0.26 0.00168 145.56)",
+          "oklch(0.38 0.00168 145.56)",
+          "oklch(0.49 0.00168 145.56)",
+          "oklch(0.61 0.00168 145.56)",
+          "oklch(0.72 0.00168 145.56)",
+          "oklch(0.84 0.00168 145.56)",
+          "oklch(0.95 0.00168 145.56)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Charcoal ink",
+        "tonalRamp": [
+          "oklch(0.15 0.02206 237.74)",
+          "oklch(0.26 0.02206 237.74)",
+          "oklch(0.38 0.02206 237.74)",
+          "oklch(0.49 0.02206 237.74)",
+          "oklch(0.61 0.02206 237.74)",
+          "oklch(0.72 0.02206 237.74)",
+          "oklch(0.84 0.02206 237.74)",
+          "oklch(0.95 0.02206 237.74)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Blue-grey text",
+        "tonalRamp": [
+          "oklch(0.15 0.03131 241.68)",
+          "oklch(0.26 0.03131 241.68)",
+          "oklch(0.38 0.03131 241.68)",
+          "oklch(0.49 0.03131 241.68)",
+          "oklch(0.61 0.03131 241.68)",
+          "oklch(0.72 0.03131 241.68)",
+          "oklch(0.84 0.03131 241.68)",
+          "oklch(0.95 0.03131 241.68)"
+        ]
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "Deep document blue",
+        "tonalRamp": [
+          "oklch(0.15 0.07887 243.80)",
+          "oklch(0.26 0.07887 243.80)",
+          "oklch(0.38 0.07887 243.80)",
+          "oklch(0.49 0.07887 243.80)",
+          "oklch(0.61 0.07887 243.80)",
+          "oklch(0.72 0.07887 243.80)",
+          "oklch(0.84 0.07887 243.80)",
+          "oklch(0.95 0.07887 243.80)"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Contents wash",
+        "tonalRamp": [
+          "oklch(0.15 0.00759 228.85)",
+          "oklch(0.26 0.00759 228.85)",
+          "oklch(0.38 0.00759 228.85)",
+          "oklch(0.49 0.00759 228.85)",
+          "oklch(0.61 0.00759 228.85)",
+          "oklch(0.72 0.00759 228.85)",
+          "oklch(0.84 0.00759 228.85)",
+          "oklch(0.95 0.00759 228.85)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Fine rule",
+        "tonalRamp": [
+          "oklch(0.15 0.01369 233.77)",
+          "oklch(0.26 0.01369 233.77)",
+          "oklch(0.38 0.01369 233.77)",
+          "oklch(0.49 0.01369 233.77)",
+          "oklch(0.61 0.01369 233.77)",
+          "oklch(0.72 0.01369 233.77)",
+          "oklch(0.84 0.01369 233.77)",
+          "oklch(0.95 0.01369 233.77)"
+        ]
+      },
+      "code": {
+        "role": "neutral",
+        "displayName": "Code wash",
+        "tonalRamp": [
+          "oklch(0.15 0.00506 228.82)",
+          "oklch(0.26 0.00506 228.82)",
+          "oklch(0.38 0.00506 228.82)",
+          "oklch(0.49 0.00506 228.82)",
+          "oklch(0.61 0.00506 228.82)",
+          "oklch(0.72 0.00506 228.82)",
+          "oklch(0.84 0.00506 228.82)",
+          "oklch(0.95 0.00506 228.82)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Keyboard focus blue",
+        "tonalRamp": [
+          "oklch(0.15 0.12355 248.03)",
+          "oklch(0.26 0.12355 248.03)",
+          "oklch(0.38 0.12355 248.03)",
+          "oklch(0.49 0.12355 248.03)",
+          "oklch(0.61 0.12355 248.03)",
+          "oklch(0.72 0.12355 248.03)",
+          "oklch(0.84 0.12355 248.03)",
+          "oklch(0.95 0.12355 248.03)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Document title",
+        "purpose": "The main reading-edition title; scales down at middle and narrow widths."
+      },
+      "body": {
+        "displayName": "Running text",
+        "purpose": "Explanatory prose constrained to 72ch."
+      },
+      "mono": {
+        "displayName": "Literal contract",
+        "purpose": "Preformatted technical contracts; inline code uses a relative size."
+      }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "wide-inset",
+        "value": "1450px"
+      },
+      {
+        "name": "compact-rail",
+        "value": "1050px"
+      },
+      {
+        "name": "stacked-document",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Print action",
+      "kind": "button",
+      "description": "Compact outlined action for the real browser print function.",
+      "html": "<button class=\"ds-print\" type=\"button\">Print document</button>",
+      "css": ".ds-print{font:12px var(--sans);border:1px solid var(--rule);background:transparent;padding:6px 10px;color:var(--blue);cursor:pointer}.ds-print:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}.ds-print:disabled{cursor:default;opacity:.55}",
+      "refersTo": "print-button"
+    },
+    {
+      "name": "Document search",
+      "kind": "input",
+      "description": "Labeled document search field; results and state are supplied by read.js.",
+      "html": "<label class=\"ds-search-label\" for=\"ds-search\">Find in document</label><input class=\"ds-search\" id=\"ds-search\" type=\"search\" placeholder=\"Search keys, replay, Tor…\" autocomplete=\"off\">",
+      "css": ".ds-search-label{display:block;font:600 12px var(--sans);color:var(--ink);margin-bottom:6px}.ds-search{width:100%;background:var(--paper);border:1px solid #b8c7d0;border-radius:3px;padding:8px 9px;font:13px var(--sans);color:var(--ink);caret-color:var(--blue)}.ds-search::placeholder{color:var(--muted)}.ds-search:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}",
+      "refersTo": "search-input"
+    },
+    {
+      "name": "Contents navigation",
+      "kind": "nav",
+      "description": "Muted links with explicit current location and a tinted hover state.",
+      "html": "<nav class=\"ds-contents\" aria-label=\"Document contents\"><a href=\"#overview\" aria-current=\"location\">Overview</a><a href=\"#architecture\">Architecture &amp; trust</a></nav>",
+      "css": ".ds-contents{font:13px/1.7 var(--sans)}.ds-contents a{display:block;padding:7px 10px;margin:2px 0;text-decoration:none;color:var(--muted);border-radius:3px}.ds-contents a:hover{background:#dbe6ed;color:var(--ink)}.ds-contents a[aria-current=\"location\"]{background:#d4e2eb;color:#153e5c;font-weight:650}.ds-contents a:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}",
+      "refersTo": "contents-link"
+    },
+    {
+      "name": "Draft label",
+      "kind": "chip",
+      "description": "Noninteractive status label used in document metadata.",
+      "html": "<span class=\"ds-draft\">Design draft</span>",
+      "css": ".ds-draft{display:inline-block;font:13px/1.7 var(--sans);color:var(--muted);border:1px solid var(--rule);padding:2px 8px}",
+      "refersTo": "draft-label"
+    },
+    {
+      "name": "Document status",
+      "kind": "custom",
+      "description": "Ruled contextual notice; not a section-card pattern.",
+      "html": "<div class=\"ds-status\"><strong>This is a design document.</strong> The CLI and service are not implemented.</div>",
+      "css": ".ds-status{font:14px/1.6 var(--sans);color:var(--ink);background:var(--rail);padding:17px 20px;margin:24px 0;border:1px solid var(--rule)}.ds-status strong{font-weight:650}",
+      "refersTo": "document-status"
+    },
+    {
+      "name": "Literal code block",
+      "kind": "custom",
+      "description": "Focusable overflow region for exact technical contracts.",
+      "html": "<pre class=\"ds-code\" tabindex=\"0\" aria-label=\"Public registration announcement\"><code>THOR-RELAY-REGISTER-V1 sha256=&lt;registration-digest&gt;</code></pre>",
+      "css": ".ds-code{background:var(--code);color:var(--ink);border:1px solid var(--rule);padding:20px 22px;overflow:auto;max-width:100%;font:12px/1.65 var(--mono);margin:25px 0;scrollbar-color:#a5b9c5 var(--code)}.ds-code code{font:inherit;white-space:pre;padding:0;background:none}.ds-code:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}",
+      "refersTo": "code-block"
+    },
+    {
+      "name": "Architecture lane",
+      "kind": "custom",
+      "description": "Textual sequence in the two-channel architecture figure.",
+      "html": "<div class=\"ds-lane\"><h3>Public enrollment</h3><ol><li><strong>Node / operator</strong><span>Authorizes a registration</span></li><li><strong>Discord announcement</strong><span>Publishes the registration digest</span></li><li><strong>Registry verification</strong><span>Checks original proof or trusted witnesses</span></li></ol></div>",
+      "css": ".ds-lane{border:1px solid var(--rule);padding:20px 22px;margin-bottom:14px;background:#fff;color:var(--ink);font-family:var(--sans)}.ds-lane h3{font-size:14px;font-weight:650;line-height:1.35;margin:0 0 17px;color:var(--blue)}.ds-lane ol{margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;list-style:none}.ds-lane li{margin:0;padding-right:10px;font-size:12px;line-height:1.5}.ds-lane strong{font-size:14px;display:block;margin-bottom:5px;font-weight:650}.ds-lane span{color:var(--muted)}@media(max-width:760px){.ds-lane ol{grid-template-columns:1fr;gap:22px}.ds-lane li{font-size:13px}.ds-lane strong{font-size:15px}}"
+    },
+    {
+      "name": "Reference table",
+      "kind": "custom",
+      "description": "Ruled technical table inside a keyboard-focusable horizontal overflow region.",
+      "html": "<div class=\"ds-table\" tabindex=\"0\" role=\"region\" aria-label=\"Privacy boundaries\"><table><thead><tr><th scope=\"col\">Party</th><th scope=\"col\">Boundary</th></tr></thead><tbody><tr><td>Admission relay</td><td>No report plaintext or maintainer private key</td></tr><tr><td>Maintainer</td><td>Decrypts and verifies locally</td></tr></tbody></table></div>",
+      "css": ".ds-table{overflow-x:auto;margin:24px 0 28px;color:var(--ink);scrollbar-color:#a5b9c5 var(--code)}.ds-table table{border-collapse:collapse;width:100%;font:13px/1.55 var(--sans);text-align:left}.ds-table th{font-size:12px;font-weight:650;background:var(--rail);color:#334c5e;border-bottom:1px solid #b3c6d2}.ds-table th,.ds-table td{padding:12px 13px;vertical-align:top;border-bottom:1px solid var(--rule)}.ds-table td{min-width:145px;font-variant-numeric:tabular-nums}.ds-table td:first-child{font-weight:550}.ds-table th:first-child,.ds-table td:first-child{padding-left:10px}.ds-table:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineering Design Dossier",
+    "overview": "The engineering design dossier makes technical reading its primary task. Paper-white ground, a blue-grey contents rail, charcoal ink and restrained deep-blue links establish a calm, conventional document. Georgia headings give the long text a recognizable editorial hierarchy; system sans carries explanations and interface labels, while monospace identifies literal contracts.\n\nThin rules, whitespace and tonal changes organize the material without turning sections into cards. Navigation stays alongside the reading column on wide screens and becomes a disclosure above it on narrow screens. This visual system belongs to the reading edition; its patterns do not imply that the proposed relay or messaging service exists.",
+    "keyCharacteristics": [
+      "Quiet paper and ink with blue reserved for links and wayfinding.",
+      "Readable prose, conventional tables and literal code.",
+      "Flat ruled structure with visible keyboard focus.",
+      "Responsive contents and a normal print edition."
+    ],
+    "rules": [
+      {
+        "name": "The Wayfinding Blue Rule",
+        "body": "Use deep blue for actual links, selected navigation and technical pathway headings; keep running text in ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Roles Rule",
+        "body": "Use Georgia for document and section headings, system sans for explanations and controls, and monospace for literal code or parameters.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Document Rule",
+        "body": "Use thin rules and tonal backgrounds to establish boundaries; the reading edition uses no shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the measured reading width and the responsive contents disclosure.",
+      "Do show actionable links, current location and a visible keyboard focus state.",
+      "Do keep code and tables scrollable on screen and readable in print.",
+      "Do distinguish document status from actions and claims about an implemented service."
+    ],
+    "donts": [
+      "Don't turn ordinary document sections into a card grid.",
+      "Don't add ambient shadows or decorative motion to this reading edition.",
+      "Don't replace literal contracts with imagery or promotional summaries.",
+      "Don't use monospace for ordinary explanatory paragraphs."
+    ]
+  }
+}

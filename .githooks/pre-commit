@@ -1,0 +1,13 @@
+#!/bin/sh
+# Worktree-isolation backstop (methodology/21, F-13): refuse commits to `main`
+# unless the sanctioned override is set. Workers must isolate — a worktree + a
+# feature branch — never commit to a shared checkout's main.
+branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) || exit 0  # detached HEAD passes
+[ "$branch" = "main" ] || exit 0                                       # non-main passes
+if [ -z "${ASSAY_MAIN_COMMIT_OK:-}" ]; then
+  echo "pre-commit: refusing commit to 'main' (worktree isolation, F-13)." >&2
+  echo "  Sanctioned main-writer (desk / verify-desk / Ian)? export ASSAY_MAIN_COMMIT_OK=1" >&2
+  echo "  Worker? isolate first: a worktree you own + a feature branch, then open a draft PR." >&2
+  exit 1
+fi
+exit 0

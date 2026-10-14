@@ -24,7 +24,7 @@
 
 ## Intake queue
 
-_0 untriaged entries — the front door is clear._
+_1 untriaged (0 over 3 days, oldest I-04 at 0d) — triage the front door_
 
 ## Awaiting verification / review (0 desk-actionable of 0 total — 0 at implemented, 0 verified awaiting review)
 

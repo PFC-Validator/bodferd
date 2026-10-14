@@ -330,3 +330,7 @@ Revision owner: this documentation session. External review source: commit `26af
 - A28: Resolved in draft: parse fixed possession plaintext/context before signing only random-token digest.
 - A29: Resolved in draft: zero/one-file framing, distinct certificate/challenge times and strict Ed25519 verification.
 - A30: Resolved in draft: verified primary SPQR announcement dated 2025-10-02; actual pinned behavior requires review.
+
+## Subsequent draft addition — operator teams
+
+The owner requested multi-person node operations after the external review and its remediation. The draft now adds scoped member IDs, per-member epochs/revocation, exact member bindings in both manifests/reply replacement, shared quotas and optional encrypted attribution. Original review arguments and A01–A30 dispositions above are preserved as historical records; they do not independently verify this newer change. Re-check particularly A05/A12/A13/A14/A19/A24/A25 against the revised member model and its required scenarios before implementation.

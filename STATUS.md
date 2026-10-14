@@ -9,7 +9,7 @@
 
 | Stream | Priority | Status | Briefs done | Last touched | Notes |
 |---|---|---|---|---|---|
-| [bodferd](docs/streams/bodferd/README.md) | P2 | active | 0/1 | 2026-10-14 |  |
+| [bodferd](docs/streams/bodferd/README.md) | P2 | active | 0/2 | 2026-10-14 |  |
 
 ## Next up
 
@@ -20,7 +20,7 @@
 
 | Stream | Brief | Wave | Score |
 |---|---|---|---|
-| bodferd | 01 — Review and approve the reporting design | 0 | 1000 |
+| bodferd | 02 — Resolve adversarial review findings in the reporting design | 0 | 1500 |
 
 ## Intake queue
 
@@ -48,9 +48,10 @@ _None._
 
 ## Incomplete briefs
 
-### bodferd (1 open)
+### bodferd (2 open)
 
-- 01 Review and approve the reporting design — todo (wave 0)
+- 01 Review and approve the reporting design — todo (wave 1)
+- 02 Resolve adversarial review findings in the reporting design — todo (wave 0)
 
 ## Done briefs
 
@@ -60,4 +61,4 @@ _`done‡` / `verified‡` = closed over an **UNRUN risk-bearing Verify row**: a
 
 ## Totals
 
-**1** streams (**1** active, **0** paused) · **0/1** briefs done · completed initiatives: see `docs/archive/`
+**1** streams (**1** active, **0** paused) · **0/2** briefs done · completed initiatives: see `docs/archive/`

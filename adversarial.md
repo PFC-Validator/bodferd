@@ -295,3 +295,38 @@ Outer manifest binds the comms key and epoch transitively through `registration_
 3. Website wording (A22) and renderer hygiene (A26) can land independently.
 
 No file under review was modified except by appending `Z>>>`…`<<<Z` annotations. No service, key, identity, email or deployment was created. This review does not approve the design.
+
+## Dispositions
+
+Revision owner: this documentation session. External review source: commit `26afc0502ba2090cac9e48e15b93c8a1d5737a21`. Original arguments above are retained. “Resolved in draft” describes a specification change only, not implementation or independent verification. The external reviewer must re-check these dispositions. User chat rulings are recorded in docs/review-decisions.md; no key/role holder has been appointed by this revision.
+
+- A01: Accepted user ruling: existing public make-relay contact requests plus monitored follow-up; no unverified upload API. Confidential pre-enrollment requirement and delay/outage residual risk are explicit.
+- A02: Resolved authority rule under user ruling: maintainer-side plus independent approval; bootstrap identities/channels/release root remain unprovisioned launch gates, never invented.
+- A03: Revised under owner blockchain steering: no daily reapproval; dual-authorized changes anchored on chain with fresh independently verified complete history. Exact publication carrier/light-verification path is unproven and blocks implementation readiness; reviewer must assess replacement freshness model.
+- A04: Resolved under user ruling: explicit any-of maintainer reader roster, display/dual approval, bounded retention and agreed on-call targets; actual readers/keys remain unprovisioned.
+- A05: Resolved in draft: core/full digest split, public core marker, restricted ADR-036 envelope; adapter compatibility remains unproven.
+- A06: Resolved in draft: relay/bot/Discord trust is explicit; application author and separate registrar organizations required.
+- A07: Resolved in draft: independent archival verifier, recorded height/source/time, pilot staleness bounds and incomplete-history outcome.
+- A08: Resolved in draft under user ruling: attached encrypted email plus authenticated Tor recovery/index, bounded acknowledgement-based retention, measured wire-size caps, provider/bounce prerequisites; no provider ownership claimed.
+- A09: Resolved in draft: escrowed onion identity, fenced writer, encrypted metadata backups, rollback/revocation recovery and explicit body-loss/migration outcomes.
+- A10: Resolved in candidate draft: libsignal is cryptographic reuse within a new non-Go messenger; group app/infrastructure burden and proposed per-device departure are explicit, subject to interoperability before selection.
+- A11: Resolved in draft: stock Signal excluded from compliant candidate set; manual advisory association is outside Bodferd.
+- A12: Resolved in draft: v1 reply registration equals sender; replacement requires fresh same-parent authorization and bound response evidence.
+- A13: Resolved in draft: digest preimages, pre-challenge context, parent dedup tuple and exact inner/outer comparisons.
+- A14: Resolved in draft: no delegate self-renewal; explicit recovery mode; normal versus emergency reservation/dispatch outcomes.
+- A15: Resolved in draft: evidence consumes registration challenge; separate 10-minute possession reservation.
+- A16: Resolved in draft: six status cases and operator-address-change behavior; release enum compatibility remains a prerequisite.
+- A17: Resolved in draft: disjoint test/production authorities, configuration/state separation and startup refusal.
+- A18: Resolved in draft: relay censorship, withholding, dishonest status, graphing and freshness-window risks are explicit.
+- A19: Resolved in draft under A01 ruling: separately reserved enrolled message-only capacity, bounded verification workers and attachment deferral; no anonymous upload lane.
+- A20: Resolved in draft: assigned launch owners, inert canaries across real paths, on-call targets and independently published aggregate health; selective censorship remains possible.
+- A21: Resolved under user ruling: MLS leads investigation, libsignal remains alternative; AS/DS separation, actual binding/audit gates, group metadata, zkgroup issuer authority and lack of group/credential deniability are explicit.
+- A22: Resolved in draft/page: nineteen findings mapped to ten requirements, future-tense provisioning claims, direct-path availability and archival visual-evidence limitation.
+- A23: Resolved in draft: relay receipt key signs response challenges; historical response verification plus independent revocation freshness.
+- A24: Resolved in draft: send consent, recipient retention/access prerequisite and scoped local purge without secure-erasure claim.
+- A25: Resolved in draft: credentials authorize, directory routes; re-key blocks until authenticated replacement/possession; monotonic sequence and freshness checks.
+- A26: Resolved in reading code: tested code/table pipes, paragraph/list boundaries, balanced URLs, literal template markers, warned unsupported links, derived date and guarded optional page enhancements.
+- A27: Resolved documentation process: reviewer cannot correct and self-verify; approval brief is human-gated, uses existing review artifact, revisions have separate ownership; public README omits private hosting handle; Discord enumeration risk explicit.
+- A28: Resolved in draft: parse fixed possession plaintext/context before signing only random-token digest.
+- A29: Resolved in draft: zero/one-file framing, distinct certificate/challenge times and strict Ed25519 verification.
+- A30: Resolved in draft: verified primary SPQR announcement dated 2025-10-02; actual pinned behavior requires review.

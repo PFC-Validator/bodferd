@@ -7,14 +7,15 @@
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Bodferð — Design document</title>
+  <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="read.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#document">Skip to document</a>
   <header class="masthead">
-    <a class="identity" href="#overview" aria-label="Bodferð overview"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 9h22M5 23h22M9 9v14m14-14v14M13 16h6"/></svg><span>Bodferð</span></a>
-    <div class="document-meta"><span class="draft-status">Design draft</span><span>14 October 2026</span></div>
+    <a class="identity" href="#overview" aria-label="Bodferð overview"><img src="brand/bodferd-mark.svg" width="36" height="43" alt=""><span>Bodferð</span></a>
+    <div class="document-meta"><span class="draft-status">Design draft</span><span>@@UPDATED_DATE@@</span></div>
     <a class="download" href="design.md" download="bodferd-design.md">Download Markdown</a>
   </header>
   <div class="layout">
@@ -31,7 +32,8 @@
           <a href="#decisions">Open prerequisites</a>
           <a href="#repository">Standalone project</a>
           <details class="reference-nav"><summary>Full protocol reference</summary><ol>@@PROTOCOL_TOC@@</ol></details>
-          <a href="#security-review">Adversarial review</a>
+          <a href="#security-review">Original findings</a>
+          <a href="#external-review">External review &amp; dispositions</a>
         </nav>
       </details>
       <div class="sidebar-note"><strong>Public authorization.<br>Confidential delivery.</strong><p>Separate signing and encryption keys. Separate enrollment and report transport.</p></div>
@@ -50,7 +52,13 @@
         <a href="security-review.md" download="bodferd-security-review.md">Download the findings register</a>
         @@REVIEW@@
       </section>
-      <footer><p>Bodferð · Design edition · 14 October 2026</p><a href="#overview">Back to top</a><button type="button" id="print-document" hidden>Print document</button></footer>
+      <section id="external-review" class="technical-reference">
+        <h2>External review and dispositions</h2>
+        <p class="section-intro">The supplied review is preserved. Dispositions describe draft revisions; independent re-check and implementation evidence remain outstanding.</p>
+        <a href="adversarial.md" download="bodferd-external-review.md">Download external review</a> · <a href="review-decisions.md">Read the owner's decisions</a>
+        @@EXTERNAL_REVIEW@@
+      </section>
+      <footer><p>Bodferð · Design edition · @@UPDATED_DATE@@</p><a href="#overview">Back to top</a><button type="button" id="print-document" hidden>Print document</button></footer>
     </main>
   </div>
 </body>

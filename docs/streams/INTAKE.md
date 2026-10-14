@@ -17,3 +17,11 @@ Disposition: needs-decision → repository owner. Options: (a) onion pull primar
 Adversarial review A10, A11, A21: the stock-Signal companion cannot meet the Tor-only gate; the libsignal client is a new messenger with no group system supplied by the library and a per-account identity-key model that does not fit the device credential; MLS (OpenMLS / mls-rs) matches the trusted-AS / untrusted-DS split Bodferd already has, with permissive licences and uniffi bindings, but neither library claims a full independent audit.
 
 Disposition: needs-decision → repository owner. Recommended: promote MLS to lead candidate, record the audit caution, drop the stock-Signal companion from the candidate list.
+
+## I-02 ruling — 2026-10-14
+
+Owner selected encrypted email plus Tor retrieval fallback. The design keeps the attachment workflow, bounds retention by acknowledgement/deadline and specifies measured size limits and mail ownership prerequisites. This overrides the earlier onion-only recommendation; infrastructure remains unprovisioned. See docs/review-decisions.md.
+
+## I-03 ruling — 2026-10-14
+
+Owner selected MLS-first investigation with libsignal retained as an alternative. Stock Signal is excluded from the compliant candidate set. Library/version/provider selection and actual integration/audit evidence remain future work; no messaging implementation is approved.

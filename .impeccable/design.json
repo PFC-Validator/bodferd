@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-14T17:51:45.248745+00:00",
+  "generatedAt": "2026-10-14T18:30:14.229601+00:00",
   "title": "Design System: Bodferð reading edition",
   "extensions": {
     "colorMeta": {
@@ -115,6 +115,34 @@
           "oklch(0.84 0.12355 248.03)",
           "oklch(0.95 0.12355 248.03)"
         ]
+      },
+      "brand-fjord": {
+        "role": "secondary",
+        "displayName": "Deep fjord green",
+        "tonalRamp": [
+          "oklch(0.15 0.04662 210.51)",
+          "oklch(0.26 0.04662 210.51)",
+          "oklch(0.38 0.04662 210.51)",
+          "oklch(0.49 0.04662 210.51)",
+          "oklch(0.61 0.04662 210.51)",
+          "oklch(0.72 0.04662 210.51)",
+          "oklch(0.84 0.04662 210.51)",
+          "oklch(0.95 0.04662 210.51)"
+        ]
+      },
+      "brand-copper": {
+        "role": "secondary",
+        "displayName": "Carved copper",
+        "tonalRamp": [
+          "oklch(0.15 0.11091 52.23)",
+          "oklch(0.26 0.11091 52.23)",
+          "oklch(0.38 0.11091 52.23)",
+          "oklch(0.49 0.11091 52.23)",
+          "oklch(0.61 0.11091 52.23)",
+          "oklch(0.72 0.11091 52.23)",
+          "oklch(0.84 0.11091 52.23)",
+          "oklch(0.95 0.11091 52.23)"
+        ]
       }
     },
     "typographyMeta": {
@@ -129,6 +157,18 @@
       "mono": {
         "displayName": "Literal contract",
         "purpose": "Preformatted technical contracts; inline code uses a relative size."
+      },
+      "brand-wordmark": {
+        "displayName": "Bodferð wordmark",
+        "purpose": "Live opening identity: 68px desktop, 58px at 1050px and below, 44px at 760px and below; 36pt in print."
+      },
+      "brand-tagline": {
+        "displayName": "P.F.C. tagline",
+        "purpose": "Private Fortified Communications. in live system sans: 16px desktop, 14px middle, 15px mobile and 10pt in print; initials are emphasized without a separate acronym badge."
+      },
+      "brand-masthead": {
+        "displayName": "Masthead identity",
+        "purpose": "Live serif name beside the small SVG: 25px desktop, 24px mobile; the existing print cascade uses 12pt."
       }
     },
     "shadows": [],
@@ -210,16 +250,33 @@
       "description": "Ruled technical table inside a keyboard-focusable horizontal overflow region.",
       "html": "<div class=\"ds-table\" tabindex=\"0\" role=\"region\" aria-label=\"Privacy boundaries\"><table><thead><tr><th scope=\"col\">Party</th><th scope=\"col\">Boundary</th></tr></thead><tbody><tr><td>Admission relay</td><td>No report plaintext or maintainer private key</td></tr><tr><td>Maintainer</td><td>Decrypts and verifies locally</td></tr></tbody></table></div>",
       "css": ".ds-table{overflow-x:auto;margin:24px 0 28px;color:var(--ink);scrollbar-color:#a5b9c5 var(--code)}.ds-table table{border-collapse:collapse;width:100%;font:13px/1.55 var(--sans);text-align:left}.ds-table th{font-size:12px;font-weight:650;background:var(--rail);color:#334c5e;border-bottom:1px solid #b3c6d2}.ds-table th,.ds-table td{padding:12px 13px;vertical-align:top;border-bottom:1px solid var(--rule)}.ds-table td{min-width:145px;font-variant-numeric:tabular-nums}.ds-table td:first-child{font-weight:550}.ds-table th:first-child,.ds-table td:first-child{padding-left:10px}.ds-table:focus-visible{outline:3px solid var(--focus);outline-offset:4px;}"
+    },
+    {
+      "name": "Masthead identity",
+      "kind": "nav",
+      "refersTo": "brand-masthead",
+      "description": "Small flat vector and live name link to the overview; the expressive raster is reserved for the opening.",
+      "html": "<a class=\"ds-brand-identity\" href=\"#overview\" aria-label=\"Bodferð overview\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 128 152\" aria-hidden=\"true\" focusable=\"false\"><path fill=\"#163f46\" fill-rule=\"evenodd\" d=\"M37 8h55l28 28v55l-28 28H51l-31 25v-31L8 101V37L37 8Zm6 14L22 43v52l12 12v8l12-10h40l20-20V42L86 22H43Z\"/>\n<path fill=\"#b46c3d\" d=\"M43 39h42l13 13-13 13H73v29l-10 10-10-10V65H41L28 52l15-13Zm6 12-2 2h18v-2H49Z\"/>\n<path fill=\"#163f46\" d=\"m37 78 6-6 6 6-6 6-6-6Zm44 0 6-6 6 6-6 6-6-6Z\"/>\n<path fill=\"#b46c3d\" d=\"m27 31 6-6 3 3-6 6-3-3Zm64 72 6-6 3 3-6 6-3-3Z\"/></svg>\n<span>Bodferð</span></a>",
+      "css": ".ds-brand-identity{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-family:var(--serif);font-size:25px;font-weight:400;letter-spacing:-.02em;white-space:nowrap}.ds-brand-identity svg{display:block;width:36px;height:43px;flex:none}.ds-brand-identity:focus-visible{outline:3px solid var(--focus);outline-offset:4px}@media(max-width:760px){.ds-brand-identity{gap:9px;font-size:24px}.ds-brand-identity svg{width:30px;height:36px}}"
+    },
+    {
+      "name": "Live brand lettering",
+      "kind": "custom",
+      "refersTo": "brand-wordmark",
+      "description": "Accessible opening name and full tagline; the page pairs this text with a transparent 512 × 512 raster displayed at 158px, 128px or 92px. Mobile puts the tagline below both emblem and name.",
+      "html": "<div class=\"ds-brand-lettering\"><h1>Bodferð</h1><p><strong>P</strong>rivate <strong>F</strong>ortified <strong>C</strong>ommunications.</p></div>",
+      "css": ".ds-brand-lettering{min-width:0}.ds-brand-lettering h1{font:400 68px/1.05 var(--serif);color:var(--brand-fjord);letter-spacing:-.035em;margin:0 0 14px}.ds-brand-lettering p{font:400 16px/1.5 var(--sans);color:var(--muted);margin:0}.ds-brand-lettering strong{font-weight:650;color:var(--brand-fjord)}@media(max-width:1050px){.ds-brand-lettering h1{font-size:58px}.ds-brand-lettering p{font-size:14px}}@media(max-width:760px){.ds-brand-lettering h1{font-size:44px;margin:0}.ds-brand-lettering p{font-size:15px}}@media print{.ds-brand-lettering h1{font-size:36pt}.ds-brand-lettering p{font-size:10pt}}"
     }
   ],
   "narrative": {
     "northStar": "The Engineering Design Dossier",
-    "overview": "The engineering design dossier makes technical reading its primary task. Paper-white ground, a blue-grey contents rail, charcoal ink and restrained deep-blue links establish a calm, conventional document. Georgia headings give the long text a recognizable editorial hierarchy; system sans carries explanations and interface labels, while monospace identifies literal contracts.\n\nThin rules, whitespace and tonal changes organize the material without turning sections into cards. Navigation stays alongside the reading column on wide screens and becomes a disclosure above it on narrow screens. This visual system belongs to the reading edition; its patterns do not imply that the proposed relay or messaging service exists.",
+    "overview": "The engineering design dossier makes technical reading its primary task. Paper-white ground, a blue-grey contents rail, charcoal ink and restrained deep-blue links establish a calm, conventional document. Georgia headings give the long text a recognizable editorial hierarchy; system sans carries explanations and interface labels, while monospace identifies literal contracts.\n\nThin rules, whitespace and tonal changes organize the material without turning sections into cards. Navigation stays alongside the reading column on wide screens and becomes a disclosure above it on narrow screens. This visual system belongs to the reading edition; its patterns do not imply that the proposed relay or messaging service exists.\n\nThe Bodferð identity extends this dossier with an original angular conversation seal, Norse hammer and communication nodes. Deep fjord green and copper identify the brand; the live serif name and “Private Fortified Communications.” tagline accompany the emblem. A small flat vector serves the masthead and favicon, while a transparent copper-and-enamel illustration serves the opening lockup. This richer artwork belongs to the identity, with the document retaining its established reading hierarchy and flat surfaces.",
     "keyCharacteristics": [
       "Quiet paper and ink with blue reserved for links and wayfinding.",
       "Readable prose, conventional tables and literal code.",
       "Flat ruled structure with visible keyboard focus.",
-      "Responsive contents and a normal print edition."
+      "Responsive contents and a normal print edition.",
+      "Original Norse conversation emblem with a live serif name and P.F.C. tagline."
     ],
     "rules": [
       {
@@ -239,12 +296,16 @@
       }
     ],
     "dos": [
+      "Do use the simple SVG emblem for small placements and the transparent 512px raster for the larger opening lockup.",
+      "Do keep Bodferð and “Private Fortified Communications.” as live responsive text on the reading page.",
       "Do preserve the measured reading width and the responsive contents disclosure.",
       "Do show actionable links, current location and a visible keyboard focus state.",
       "Do keep code and tables scrollable on screen and readable in print.",
       "Do distinguish document status from actions and claims about an implemented service."
     ],
     "donts": [
+      "Don't turn baked copper bevels or enamel detail into global CSS shadows or component decoration.",
+      "Don't substitute upstream organization logos or add a separate P.F.C. badge to the approved tagline.",
       "Don't turn ordinary document sections into a card grid.",
       "Don't add ambient shadows or decorative motion to this reading edition.",
       "Don't replace literal contracts with imagery or promotional summaries.",

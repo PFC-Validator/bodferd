@@ -5,7 +5,7 @@ why: An adversarial review found two Critical and nine High design defects; the 
 outcome: none
 wave: 0
 depends: []
-unblocks: []
+unblocks: [bodferd/01]
 effort: M
 gate: model
 risk: {regulatory: no, customer: no, irreversible: no, sensitive-data: no}
@@ -46,9 +46,9 @@ Read first: adversarial.md, then the annotated docs/design.md.
 ## Verify (executable — no prose-only DoD items)
 | # | Command | Expect | Class |
 |---|---------|--------|-------|
-| 1 | `grep -c 'Z>>>' docs/design.md docs/security-review.md src/overview.html` | every remaining marker has a matching "Dispositions" entry in adversarial.md; reviewer opens each one | check +dereference |
+| 1 | `python3 -c "from pathlib import Path; print(sum(p.read_text().count('Z>>>') for p in [Path('docs/design.md'), Path('docs/security-review.md'), Path('src/overview.html')]))"` | zero after all dispositions resolved/accepted; any remaining marker has a matching "Dispositions" entry in adversarial.md; reviewer opens each one | check +dereference |
 | 2 | `grep -n 'Dispositions' adversarial.md && grep -c '^- A[0-9][0-9]' adversarial.md` | section present; one disposition line per finding A01–A30, each naming resolved / accepted / rejected with reason | check +dereference |
-| 3 | `node scripts/build.mjs && git diff --quiet dist/ ; echo $?` | build exits 0; dist/ in sync with docs/ and src/ (prints 0); the rendered page carries no `Z>>>` for a resolved finding | check +flow |
+| 3 | `node --test scripts/markdown.test.mjs && node scripts/check-build.mjs` | tests and reproducible rebuild exit 0; dist/ agrees byte-for-byte with docs/ and src/; the rendered page carries no `Z>>>` for a resolved finding | check +flow |
 | 4 | `statusgen --root . --lint` | exit 0 with the pinned binary from .assay-versions | check |
 | 5 | `grep -c -e nineteen -e '19 findings' src/overview.html docs/design.md` | at least 1 in each file (A22 count correction) | check |
 | 6 | `grep -c -e 'R-number' -e 'R0[0-9]' -e 'R1[0-8]' docs/design.md` | at least 10 (controls table carries the R-number mapping, A22) | check |
@@ -61,3 +61,7 @@ Read first: adversarial.md, then the annotated docs/design.md.
 
 ## Review
 Gate: model (from frontmatter — all four risk answers no). Reviewer records verdict + date in the stream README table. The protocol approval itself remains brief 01's human ruling; this brief only makes the draft fit to rule on.
+
+## Revision boundary
+
+This implementer records local developer validation in docs/review-remediation.md. Evidence above stays reserved for the non-implementer. New on-chain publication and roster semantics require that independent re-check; no approval follows from clean renderer/build/lint output.

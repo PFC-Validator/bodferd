@@ -41,12 +41,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install pinned statusgen (channel E — sha256-verified release binary)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          plat="$(uname -s | tr A-Z a-z)-$(uname -m | sed 's/^x86_64$/amd64/; s/^aarch64$/arm64/')"
+          plat="$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m | sed 's/^x86_64$/amd64/; s/^aarch64$/arm64/')"
           line="$(grep "^statusgen-$plat " .assay-versions || true)"
           if [ -z "$line" ]; then
             echo "::error::no .assay-versions pin for platform $plat — refusing rather than guessing"
@@ -74,17 +76,22 @@ jobs:
       - name: statusgen --lint
         run: statusgen --lint
   regen:
+    permissions:
+      contents: write
+      pull-requests: read
     # STATUS.md is generated on main only, never on a branch (single writer).
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install pinned statusgen (channel E — sha256-verified release binary)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          plat="$(uname -s | tr A-Z a-z)-$(uname -m | sed 's/^x86_64$/amd64/; s/^aarch64$/arm64/')"
+          plat="$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m | sed 's/^x86_64$/amd64/; s/^aarch64$/arm64/')"
           line="$(grep "^statusgen-$plat " .assay-versions || true)"
           if [ -z "$line" ]; then
             echo "::error::no .assay-versions pin for platform $plat — refusing rather than guessing"
@@ -105,11 +112,15 @@ jobs:
             echo "trust roster present: ASSAY_TRUSTED_BOT_SLUGS is set (statusgen echoes the effective role-bindings= below)"
           fi
       - name: Regenerate STATUS.md
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: statusgen --root .
       # Regenerate every board: generated stream README's Briefs table (its
       # authoring columns), the same single-writer discipline as STATUS.md. A
       # README without board: generated is left hand-maintained (NOTICE only).
       - name: Regenerate stream README tables
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: statusgen regen --readmes --root .
       # ONLINE DRIFT COMPARATOR (opt-in). When this repo grants the regen job
       # `pull-requests: read` and `issues: read` and passes `--repo <owner>/<name>`,

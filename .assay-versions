@@ -1,2 +1,5 @@
-statusgen-darwin-arm64 v1.0.29 fe970b3175fb5351da2791fc8eb3f6eb2d8cedc1a42f091118eba8763286abaa
-statusgen-linux-amd64 v1.0.29 5c57320d7cbaaac1a9c6f687f776629834af2cfc32c19f94e75627f6b33b8304
+assay v1.0.44
+statusgen-darwin-arm64 v1.0.44 6f0c3844658ddda63c238535b772acbb0cd9451babb2b41fb2bb4fcf8464c997
+statusgen-linux-amd64 v1.0.44 c32d5f48aefbc0dc13904b3c626f5fc258f68a1be2a3669c02461ccee9776519
+desk-tools-darwin-arm64 v1.0.44 ecf9389701ef0403b0430534acb6e227d9978007dab9b25aea1470e20aad4312
+desk-tools-linux-amd64 v1.0.44 41cd8aee1c164dcf8830025d7deafe82e2dc1fd075d54714becb09617ec6510c

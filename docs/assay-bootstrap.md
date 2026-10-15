@@ -23,3 +23,33 @@ The requesting user will delete and recreate the public remote after reviewing t
 Configure the five nonsecret Actions roster variables named by the generated workflow, grant/provision reviewer identity for this repository, and decide branch protection plus any dedicated board-writer App/bypass. Credentials stay in their existing protected custody and are never committed. Main's CI is the only STATUS.md writer; never stage preview boards on a branch. STATUS.md is deliberately not gitignored: CI must be able to stage its first generated board. A clean-fixture test checks this bootstrap condition.
 
 After main initialization, verify the first statusgen CI run and board generation, fetch origin/main, rerun local lint with history available and create subsequent draft PRs normally. Only an independent technical review plus a recorded human ruling can approve the protocol. Exercise one seed brief across review, human merge and independent verification before claiming the full Assay lifecycle proven.
+
+## Authorized v1.0.44 reset
+
+On 2026-10-15 the repository owner explicitly directed a reset of this new
+project to Assay v1.0.44, with manual compatibility repairs. This supersedes
+the original v1.0.42 plugin / v1.0.29 statusgen pairing above. The prior pin file
+had no umbrella marker, so the normal upgrade resolver could not identify a
+starting suite version. This is an owner-authorized initialization of the target
+composition, not a claim that the automated migration path ran successfully.
+
+`.assay-versions` now records the v1.0.44 umbrella and the published per-platform
+SHA-256 digests for statusgen and desk-tools. Digests come from the
+[v1.0.44 release checksums](https://github.com/medici-finance/assay/releases/download/v1.0.44/checksums.txt).
+The existing brief schemas remain subject to the target statusgen lint. This
+repository change does not change App identities, grant permissions, or update
+machine-wide installations.
+
+The statusgen workflow checks out full history so main-comparison gates can run,
+and supplies its workflow token to both board-generation steps with explicit
+pull-request read permission. Generated board files remain main-only outputs.
+
+Local validation of this reset: `deskpins --check --root .` passed;
+`deskversion --root . --fetch` reported `state: known`, umbrella v1.0.44,
+with statusgen and desk-tools v1.0.44; the installed statusgen digest matched
+the Darwin ARM64 pin. `statusgen --root . --lint`, `node scripts/build.mjs`,
+`actionlint .github/workflows/assay-statusgen.yml`, and `git diff --check`
+all exited zero. Offline lint does not validate live branch claims. A separate
+isolated v1.0.44 preview generated the board and README tables with the desk
+App credential and main history available; hosted workflow-token behavior
+still requires the normal CI run after publication and merge.
